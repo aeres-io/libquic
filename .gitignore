@@ -1,0 +1,5 @@
+out
+Local.mk
+Application.mk
+.clang_complete
+*.swp

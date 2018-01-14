@@ -1,0 +1,80 @@
+# Copyright 2018 - Filegear - All Rights Reserved
+
+ifneq ($(FG_SHAREDLIB),)
+LOCAL_MODULE := $(FG_SHAREDLIB)
+else
+ifneq ($(FG_LIB),)
+LOCAL_MODULE := $(FG_LIB)
+else
+LOCAL_MODULE := $(FG_PROGRAM)
+endif
+endif
+
+LOCAL_SRC_FILES := $(FG_SRCS)
+
+ifneq ($(FG_SRCS_ANDROID),)
+LOCAL_SRC_FILES += $(FG_SRCS_ANDROID)
+endif
+
+LOCAL_CPP_EXTENSION := .cc .cpp
+#LOCAL_CPP_FEATURES := rtti exceptions
+
+LOCAL_CFLAGS := -DANDROID -DOS_ANDROID -D__STDC_FORMAT_MACROS -D__STDC_CONSTANT_MACROS -DNDEBUG
+
+ifneq ($(FG_CFLAGS),)
+LOCAL_CFLAGS += $(FG_CFLAGS)
+endif
+
+ifneq ($(FG_CFLAGS_ANDROID),)
+LOCAL_CFLAGS += $(FG_CFLAGS_ANDROID)
+endif
+
+ifneq ($(FG_INCLUDES),)
+LOCAL_C_INCLUDES := $(FG_INCLUDES)
+endif
+
+ifneq ($(FG_INCLUDES_ANDROID),)
+LOCAL_C_INCLUDES += $(FG_INCLUDES_ANDROID)
+endif
+
+LOCAL_CPPFLAGS := -std=gnu++14 -DANDROID_STL=c++_shared -D__STDC_LIMIT_MACROS
+
+ifneq ($(FG_CPPFLAGS),)
+LOCAL_CPPFLAGS += $(FG_CPPFLAGS)
+endif
+
+ifneq ($(FG_CPPFLAGS_ANDROID),)
+LOCAL_CPPFLAGS += $(FG_CPPFLAGS_ANDROID)
+endif
+
+ifneq ($(FG_LDFLAGS),)
+LOCAL_LDFLAGS := $(FG_LDFLAGS)
+endif
+
+ifneq ($(FG_LDFLAGS_ANDROID),)
+LOCAL_LDFLAGS += $(FG_LDFLAGS_ANDROID)
+endif
+
+ifeq ($(FG_LIB),)
+LOCAL_LDLIBS := -L$(NDK_LIBS_OUT)/../bin/$(TARGET_ARCH_ABI)
+endif
+
+ifneq ($(FG_LIBS),)
+_FG_LIBS = $(patsubst %,-l%,$(FG_LIBS))
+LOCAL_LDLIBS += $(_FG_LIBS)
+endif
+
+ifneq ($(FG_SHAREDLIBS),)
+_FG_SHAREDLIBS = $(patsubst %,-l%,$(FG_SHAREDLIBS))
+LOCAL_LDLIBS += $(_FG_SHAREDLIBS)
+endif
+
+ifneq ($(FG_SHAREDLIB),)
+include $(BUILD_SHARED_LIBRARY)
+else
+ifneq ($(FG_LIB),)
+include $(BUILD_STATIC_LIBRARY)
+else
+include $(BUILD_EXECUTABLE)
+endif
+endif
