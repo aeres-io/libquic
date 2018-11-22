@@ -30,7 +30,7 @@ class StreamSocket;
 
 class TcpRelayConnection;
 
-class QuicRawServer {
+class NET_EXPORT QuicRawServer {
  public:
   QuicRawServer(
       std::unique_ptr<ProofSource> proof_source,

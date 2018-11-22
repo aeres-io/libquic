@@ -24,7 +24,7 @@
 # =============================================================================
 #
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.3)
 
 project(libquic)
 
@@ -343,6 +343,10 @@ endif (DEFINED UNIX)
 
 add_library(quic SHARED ${QUIC_SRC})
 
+set_target_properties(quic PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_target_properties(quic PROPERTIES C_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_property(TARGET quic PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 add_definitions(-DHAVE_CONFIG_H -DNO_TCMALLOC -DCOMPONENT_BUILD -DBASE_IMPLEMENTATION -DNET_IMPLEMENTATION -DURL_IMPLEMENTATION)
 
 add_definitions(-DGOOGLE_PROTOBUF_NO_RTTI -DGOOGLE_PROTOBUF_NO_STATIC_INITIALIZER -DHAVE_PTHREAD)
@@ -352,6 +356,8 @@ include_directories("../third_party/boringssl/src/include")
 include_directories("third_party/protobuf/src")
 include_directories("third_party/googletest/src/googlemock/include")
 include_directories("gen")
+
+aeres_lib(quic libboringssl ${LIBDIR}/libboringssl.a)
 
 if (DEFINED UNIX)
   if (((NOT DEFINED NSS_CFLAGS) AND (NOT DEFINED NSS_LIBS)) OR ((NOT DEFINED NSPR_CFLAGS) AND (NOT DEFINED NSPR_LIBS)))

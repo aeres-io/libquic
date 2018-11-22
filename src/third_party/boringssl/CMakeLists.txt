@@ -24,7 +24,7 @@
 # =============================================================================
 #
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.3)
 
 project(libboringssl)
 
@@ -375,11 +375,16 @@ if (${TARGET_ARCH_ABI} STREQUAL arm64-v8a)
 endif (${TARGET_ARCH_ABI} STREQUAL arm64-v8a)
 
 
-add_library(boringssl SHARED ${BORINGSSL_SRC})
+add_library(boringssl STATIC ${BORINGSSL_SRC})
+
+set_target_properties(boringssl PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_target_properties(boringssl PROPERTIES C_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_target_properties(boringssl PROPERTIES ASM_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_property(TARGET boringssl PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_definitions(-DDYNAMIC_ANNOTATIONS_ENABLED=0 -DBORINGSSL_ALLOW_CXX_RUNTIME -DBORINGSSL_IMPLEMENTATION -DBORINGSSL_NO_STATIC_INITIALIZER -DOPENSSL_SMALL)
 
-add_definitions(-DBORINGSSL_SHARED_LIBRARY)
+#add_definitions(-DBORINGSSL_SHARED_LIBRARY)
 
 include_directories("src/include")
 

@@ -23,7 +23,7 @@ class QuicChromiumConnectionHelper;
 class UDPClientSocket;
 
 
-class QuicRawClient : public QuicChromiumPacketReader::Visitor {
+class NET_EXPORT QuicRawClient : public QuicChromiumPacketReader::Visitor {
  public:
 
    class QuicDataToResend {
