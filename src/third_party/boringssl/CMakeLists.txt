@@ -297,26 +297,44 @@ set(
 if (${TARGET_ARCH_ABI} STREQUAL x86_64)
   set(
     BORINGSSL_SRC ${BORINGSSL_SRC}
+    mac-x86_64/crypto/chacha/chacha-x86_64.S
+    mac-x86_64/crypto/cipher_extra/aes128gcmsiv-x86_64.S
+    mac-x86_64/crypto/cipher_extra/chacha20_poly1305_x86_64.S
+    mac-x86_64/crypto/fipsmodule/aes-x86_64.S
+    mac-x86_64/crypto/fipsmodule/aesni-gcm-x86_64.S
+    mac-x86_64/crypto/fipsmodule/aesni-x86_64.S
+    mac-x86_64/crypto/fipsmodule/bsaes-x86_64.S
+    mac-x86_64/crypto/fipsmodule/ghash-x86_64.S
+    mac-x86_64/crypto/fipsmodule/md5-x86_64.S
+    mac-x86_64/crypto/fipsmodule/p256-x86_64-asm.S
+    mac-x86_64/crypto/fipsmodule/rdrand-x86_64.S
+    mac-x86_64/crypto/fipsmodule/rsaz-avx2.S
+    mac-x86_64/crypto/fipsmodule/sha1-x86_64.S
+    mac-x86_64/crypto/fipsmodule/sha256-x86_64.S
+    mac-x86_64/crypto/fipsmodule/sha512-x86_64.S
+    mac-x86_64/crypto/fipsmodule/vpaes-x86_64.S
+    mac-x86_64/crypto/fipsmodule/x86_64-mont.S
+    mac-x86_64/crypto/fipsmodule/x86_64-mont5.S
 
-    linux-x86_64/crypto/chacha/chacha-x86_64.S
-    linux-x86_64/crypto/cipher_extra/aes128gcmsiv-x86_64.S
-    linux-x86_64/crypto/cipher_extra/chacha20_poly1305_x86_64.S
-    linux-x86_64/crypto/fipsmodule/aes-x86_64.S
-    linux-x86_64/crypto/fipsmodule/aesni-gcm-x86_64.S
-    linux-x86_64/crypto/fipsmodule/aesni-x86_64.S
-    linux-x86_64/crypto/fipsmodule/bsaes-x86_64.S
-    linux-x86_64/crypto/fipsmodule/ghash-x86_64.S
-    linux-x86_64/crypto/fipsmodule/md5-x86_64.S
-    linux-x86_64/crypto/fipsmodule/p256-x86_64-asm.S
-    linux-x86_64/crypto/fipsmodule/rdrand-x86_64.S
-    linux-x86_64/crypto/fipsmodule/rsaz-avx2.S
-    linux-x86_64/crypto/fipsmodule/sha1-x86_64.S
-    linux-x86_64/crypto/fipsmodule/sha256-x86_64.S
-    linux-x86_64/crypto/fipsmodule/sha512-x86_64.S
-    linux-x86_64/crypto/fipsmodule/vpaes-x86_64.S
-    linux-x86_64/crypto/fipsmodule/x86_64-mont.S
-    linux-x86_64/crypto/fipsmodule/x86_64-mont5.S
-    src/crypto/curve25519/asm/x25519-asm-x86_64.S
+#    linux-x86_64/crypto/chacha/chacha-x86_64.S
+#    linux-x86_64/crypto/cipher_extra/aes128gcmsiv-x86_64.S
+#    linux-x86_64/crypto/cipher_extra/chacha20_poly1305_x86_64.S
+#    linux-x86_64/crypto/fipsmodule/aes-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/aesni-gcm-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/aesni-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/bsaes-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/ghash-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/md5-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/p256-x86_64-asm.S
+#    linux-x86_64/crypto/fipsmodule/rdrand-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/rsaz-avx2.S
+#    linux-x86_64/crypto/fipsmodule/sha1-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/sha256-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/sha512-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/vpaes-x86_64.S
+#    linux-x86_64/crypto/fipsmodule/x86_64-mont.S
+#    linux-x86_64/crypto/fipsmodule/x86_64-mont5.S
+#    src/crypto/curve25519/asm/x25519-asm-x86_64.S
   )
 endif (${TARGET_ARCH_ABI} STREQUAL x86_64)
 

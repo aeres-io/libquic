@@ -1238,7 +1238,7 @@ int FilePath::CompareIgnoreCase(StringPieceType string1,
 
   // GetHFSDecomposedForm() returns an empty string in an error case.
   if (hfs1.empty() || hfs2.empty()) {
-    NOTREACHED();
+    //NOTREACHED();
     ScopedCFTypeRef<CFStringRef> cfstring1(
         CFStringCreateWithBytesNoCopy(
             NULL,
