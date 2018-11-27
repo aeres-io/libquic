@@ -58,8 +58,6 @@ set(
 	base/files/scoped_file.cc
 	base/hash.cc
 	base/lazy_instance.cc
-  base/mac/scoped_nsautorelease_pool.mm
-  base/mac/scoped_mach_port.cc
 	base/memory/ref_counted.cc
 	base/memory/singleton.cc
 	base/memory/weak_ptr.cc
@@ -69,7 +67,6 @@ set(
 	base/message_loop/message_pump.cc
 	base/message_loop/message_pump_default.cc
 	base/message_loop/message_pump_libevent.cc
-  base/message_loop/message_pump_mac.mm
 	base/pickle.cc
 	base/rand_util.cc
 	base/run_loop.cc
@@ -83,8 +80,6 @@ set(
 	base/strings/string_util_constants.cc
 	base/strings/string16.cc
 	base/strings/stringprintf.cc
-	base/strings/utf_string_conversions.cc
-  base/strings/utf_string_conversion_utils.cc
 	base/synchronization/atomic_flag.cc
 	base/synchronization/lock.cc
 	base/task_runner.cc
@@ -96,7 +91,6 @@ set(
 	base/third_party/libevent/evbuffer.c
 	base/third_party/libevent/evdns.c
 	base/third_party/libevent/event.c
-	base/third_party/libevent/kqueue.c
 	base/third_party/libevent/event_tagging.c
 	base/third_party/libevent/evrpc.c
 	base/third_party/libevent/evutil.c
@@ -323,60 +317,69 @@ set(
 	third_party/protobuf/src/google/protobuf/wire_format_lite.cc
 )
 
+if (DEFINED UNIX)
+  if (DEFINED MACOSX)
+    set(
+      QUIC_SRC ${QUIC_SRC}
 
-if (DEFINED UNIX AND NOT DEFINED MACOSX)
-  set(
-    QUIC_SRC ${QUIC_SRC}
+      base/mac/scoped_nsautorelease_pool.mm
+      base/mac/scoped_mach_port.cc
+      base/message_loop/message_pump_mac.mm
+      base/native_library_mac.mm
+      base/pending_task.cc
+      base/posix/safe_strerror.cc
+      base/rand_util_posix.cc
+      base/strings/sys_string_conversions_mac.mm
+      base/strings/utf_string_conversions.cc
+      base/strings/utf_string_conversion_utils.cc
+      base/third_party/libevent/kqueue.c
+      base/synchronization/condition_variable_posix.cc
+      base/synchronization/lock_impl_posix.cc
+      base/synchronization/waitable_event_mac.cc
+      third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc
+      base/threading/platform_thread_internal_posix.cc
+      base/threading/platform_thread_posix.cc
+      base/threading/platform_thread_mac.mm
+      base/time/time_conversion_posix.cc
+      base/time/time_mac.cc
+      net/base/net_errors_posix.cc
+      net/socket/socket_posix.cc
+      net/socket/tcp_socket_posix.cc
+      net/socket/udp_socket_posix.cc
+    )
+  else()
+    set(
+      QUIC_SRC ${QUIC_SRC}
 
-    base/native_library_posix.cc
-    base/pending_task.cc
-    base/posix/safe_strerror.cc
-    base/rand_util_posix.cc
-    base/strings/sys_string_conversions_posix.cc
-    base/synchronization/condition_variable_posix.cc
-    base/synchronization/lock_impl_posix.cc
-    base/synchronization/waitable_event_posix.cc
-    base/third_party/libevent/epoll.c
-    third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc
-    base/threading/platform_thread_internal_posix.cc
-    base/threading/platform_thread_posix.cc
-    base/threading/platform_thread_linux.cc
-    base/time/time_conversion_posix.cc
-    base/time/time_exploded_posix.cc
-    base/time/time_now_posix.cc
-    net/base/net_errors_posix.cc
-    net/socket/socket_posix.cc
-    net/socket/tcp_socket_posix.cc
-    net/socket/udp_socket_posix.cc
-  )
-endif (DEFINED UNIX AND NOT DEFINED MACOSX)
-
-if (DEFINED MACOSX)
-  set(
-    QUIC_SRC ${QUIC_SRC}
-
-    base/native_library_mac.mm
-    base/pending_task.cc
-    base/posix/safe_strerror.cc
-    base/rand_util_posix.cc
-    base/strings/sys_string_conversions_mac.mm
-    base/synchronization/condition_variable_posix.cc
-    base/synchronization/lock_impl_posix.cc
-    base/synchronization/waitable_event_mac.cc
-    third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc
-    base/threading/platform_thread_internal_posix.cc
-    base/threading/platform_thread_posix.cc
-    base/threading/platform_thread_mac.mm
-    base/time/time_conversion_posix.cc
-    base/time/time_mac.cc
-    net/base/net_errors_posix.cc
-    net/socket/socket_posix.cc
-    net/socket/tcp_socket_posix.cc
-    net/socket/udp_socket_posix.cc
-  )
-endif (DEFINED MACOSX)
+      base/native_library_posix.cc
+      base/pending_task.cc
+      base/posix/safe_strerror.cc
+      base/rand_util_posix.cc
+      base/strings/sys_string_conversions_posix.cc
+      base/synchronization/condition_variable_posix.cc
+      base/synchronization/lock_impl_posix.cc
+      base/synchronization/waitable_event_posix.cc
+      base/third_party/libevent/epoll.c
+      third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc
+      base/threading/platform_thread_internal_posix.cc
+      base/threading/platform_thread_posix.cc
+      base/threading/platform_thread_linux.cc
+      base/time/time_conversion_posix.cc
+      base/time/time_exploded_posix.cc
+      base/time/time_now_posix.cc
+      net/base/net_errors_posix.cc
+      net/socket/socket_posix.cc
+      net/socket/tcp_socket_posix.cc
+      net/socket/udp_socket_posix.cc
+    )
+  endif (DEFINED MACOSX)
+endif (DEFINED UNIX)
 
 add_library(quic SHARED ${QUIC_SRC})
+
+set_target_properties(quic PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_target_properties(quic PROPERTIES C_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN 1)
+set_property(TARGET quic PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_definitions(-DHAVE_CONFIG_H -DNO_TCMALLOC -DCOMPONENT_BUILD -DBASE_IMPLEMENTATION -DNET_IMPLEMENTATION -DURL_IMPLEMENTATION)
 
@@ -390,7 +393,7 @@ include_directories("gen")
 
 aeres_lib(quic libboringssl ${LIBDIR}/libboringssl.a)
 
-if (DEFINED UNIX) #DARWIN
+if (DEFINED UNIX)
   if (((NOT DEFINED NSS_CFLAGS) AND (NOT DEFINED NSS_LIBS)) OR ((NOT DEFINED NSPR_CFLAGS) AND (NOT DEFINED NSPR_LIBS)))
     include_directories(".")
     include_directories("net/quic/core/proto")
