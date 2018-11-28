@@ -51,3 +51,16 @@ Makefile
 out
 x64
 x86
+
+
+src/libquic/Debug/
+src/quic/.libquic.vcxproj.un~
+src/quic/Debug/
+src/quic/Release/
+src/quic/libquic.vcxproj~
+src/third_party/boringssl/Debug/
+src/third_party/boringssl/Release/
+src/third_party/zlib/Debug/
+src/third_party/zlib/Release/
+
+*~
