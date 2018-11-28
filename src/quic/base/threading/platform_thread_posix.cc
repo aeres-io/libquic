@@ -36,15 +36,6 @@ void InitThreading();
 void TerminateOnThread();
 size_t GetDefaultThreadStackSize(const pthread_attr_t& attributes);
 
-namespace internal {
-const ThreadPriorityToNiceValuePair kThreadPriorityToNiceValueMap[4] = {
-    {ThreadPriority::BACKGROUND, 10},
-    {ThreadPriority::NORMAL, 0},
-    {ThreadPriority::DISPLAY, -8},
-    {ThreadPriority::REALTIME_AUDIO, -10},
-};
-}
-
 namespace {
 
 struct ThreadParams {

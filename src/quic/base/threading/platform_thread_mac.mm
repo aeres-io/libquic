@@ -16,7 +16,17 @@
 namespace base {
 namespace {
 NSString* const kThreadPriorityKey = @"CrThreadPriorityKey";
+
 }  // namespace
+
++namespace internal {
++const ThreadPriorityToNiceValuePair kThreadPriorityToNiceValueMap[4] = {
++    {ThreadPriority::BACKGROUND, 10},
++    {ThreadPriority::NORMAL, 0},
++    {ThreadPriority::DISPLAY, -8},
++    {ThreadPriority::REALTIME_AUDIO, -10},
++};
++}
 
 namespace mac {
 template<typename T>
