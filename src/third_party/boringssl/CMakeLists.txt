@@ -32,12 +32,6 @@ set(ROOT ${PROJECT_SOURCE_DIR}/../../..)
 
 include(${ROOT}/Config.cmake)
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(MACOSX TRUE)
-else()
-  set(LINUX TRUE)
-endif()
-
 enable_language(ASM)
 
 set(
@@ -114,7 +108,6 @@ set(
 	src/crypto/crypto.c
 	src/crypto/curve25519/curve25519.c
 	src/crypto/curve25519/spake25519.c
-	src/crypto/curve25519/x25519-x86_64.c
 	src/crypto/dh/check.c
 	src/crypto/dh/dh.c
 	src/crypto/dh/dh_asn1.c
@@ -301,6 +294,12 @@ set(
 )
 
 if (${TARGET_ARCH_ABI} STREQUAL x86_64)
+	set(
+		BORINGSSL_SRC ${BORINGSSL_SRC}
+
+		src/crypto/curve25519/x25519-x86_64.c
+	)
+
   if (DEFINED MACOSX)
     set(
       BORINGSSL_SRC ${BORINGSSL_SRC}
@@ -323,6 +322,29 @@ if (${TARGET_ARCH_ABI} STREQUAL x86_64)
       mac-x86_64/crypto/fipsmodule/vpaes-x86_64.S
       mac-x86_64/crypto/fipsmodule/x86_64-mont.S
       mac-x86_64/crypto/fipsmodule/x86_64-mont5.S
+    )
+	elseif (DEFINED WINDOWS)
+    set(
+      BORINGSSL_SRC ${BORINGSSL_SRC}
+
+      win-x86_64/crypto/chacha/chacha-x86_64.asm
+      win-x86_64/crypto/cipher_extra/aes128gcmsiv-x86_64.asm
+      win-x86_64/crypto/cipher_extra/chacha20_poly1305_x86_64.asm
+      win-x86_64/crypto/fipsmodule/aes-x86_64.asm
+      win-x86_64/crypto/fipsmodule/aesni-gcm-x86_64.asm
+      win-x86_64/crypto/fipsmodule/aesni-x86_64.asm
+      win-x86_64/crypto/fipsmodule/bsaes-x86_64.asm
+      win-x86_64/crypto/fipsmodule/ghash-x86_64.asm
+      win-x86_64/crypto/fipsmodule/md5-x86_64.asm
+      win-x86_64/crypto/fipsmodule/p256-x86_64-asm.asm
+      win-x86_64/crypto/fipsmodule/rdrand-x86_64.asm
+      win-x86_64/crypto/fipsmodule/rsaz-avx2.asm
+      win-x86_64/crypto/fipsmodule/sha1-x86_64.asm
+      win-x86_64/crypto/fipsmodule/sha256-x86_64.asm
+      win-x86_64/crypto/fipsmodule/sha512-x86_64.asm
+      win-x86_64/crypto/fipsmodule/vpaes-x86_64.asm
+      win-x86_64/crypto/fipsmodule/x86_64-mont.asm
+      win-x86_64/crypto/fipsmodule/x86_64-mont5.asm
     )
   else()
     set(
@@ -356,35 +378,52 @@ if (${TARGET_ARCH_ABI} STREQUAL x86)
     set(
       BORINGSSL_SRC ${BORINGSSL_SRC}
 
-      linux-x86/crypto/chacha/chacha-x86.S
-      linux-x86/crypto/fipsmodule/aes-586.S
-      linux-x86/crypto/fipsmodule/aesni-x86.S
-      linux-x86/crypto/fipsmodule/bn-586.S
-      linux-x86/crypto/fipsmodule/co-586.S
-      linux-x86/crypto/fipsmodule/ghash-x86.S
-      linux-x86/crypto/fipsmodule/md5-586.S
-      linux-x86/crypto/fipsmodule/sha1-586.S
-      linux-x86/crypto/fipsmodule/sha256-586.S
-      linux-x86/crypto/fipsmodule/sha512-586.S
-      linux-x86/crypto/fipsmodule/vpaes-x86.S
-      linux-x86/crypto/fipsmodule/x86-mont.S
+      mac-x86/crypto/chacha/chacha-x86.S
+      mac-x86/crypto/fipsmodule/aes-586.S
+      mac-x86/crypto/fipsmodule/aesni-x86.S
+      mac-x86/crypto/fipsmodule/bn-586.S
+      mac-x86/crypto/fipsmodule/co-586.S
+      mac-x86/crypto/fipsmodule/ghash-x86.S
+      mac-x86/crypto/fipsmodule/md5-586.S
+      mac-x86/crypto/fipsmodule/sha1-586.S
+      mac-x86/crypto/fipsmodule/sha256-586.S
+      mac-x86/crypto/fipsmodule/sha512-586.S
+      mac-x86/crypto/fipsmodule/vpaes-x86.S
+      mac-x86/crypto/fipsmodule/x86-mont.S
+    )
+	elseif (DEFINED WINDOWS)
+    set(
+      BORINGSSL_SRC ${BORINGSSL_SRC}
+
+      win-x86/crypto/chacha/chacha-x86.asm
+      win-x86/crypto/fipsmodule/aes-586.asm
+      win-x86/crypto/fipsmodule/aesni-x86.asm
+      win-x86/crypto/fipsmodule/bn-586.asm
+      win-x86/crypto/fipsmodule/co-586.asm
+      win-x86/crypto/fipsmodule/ghash-x86.asm
+      win-x86/crypto/fipsmodule/md5-586.asm
+      win-x86/crypto/fipsmodule/sha1-586.asm
+      win-x86/crypto/fipsmodule/sha256-586.asm
+      win-x86/crypto/fipsmodule/sha512-586.asm
+      win-x86/crypto/fipsmodule/vpaes-x86.asm
+      win-x86/crypto/fipsmodule/x86-mont.asm
     )
   else()
     set(
       BORINGSSL_SRC ${BORINGSSL_SRC}
 
-      mac-x86//crypto/chacha/chacha-x86.S
-      mac-x86//crypto/fipsmodule/co-586.S
-      mac-x86//crypto/fipsmodule/vpaes-x86.S
-      mac-x86//crypto/fipsmodule/sha512-586.S
-      mac-x86//crypto/fipsmodule/sha1-586.S
-      mac-x86//crypto/fipsmodule/aesni-x86.S
-      mac-x86//crypto/fipsmodule/md5-586.S
-      mac-x86//crypto/fipsmodule/x86-mont.S
-      mac-x86//crypto/fipsmodule/bn-586.S
-      mac-x86//crypto/fipsmodule/aes-586.S
-      mac-x86//crypto/fipsmodule/sha256-586.S
-      mac-x86//crypto/fipsmodule/ghash-x86.S
+      linux-x86//crypto/chacha/chacha-x86.S
+      linux-x86//crypto/fipsmodule/co-586.S
+      linux-x86//crypto/fipsmodule/vpaes-x86.S
+      linux-x86//crypto/fipsmodule/sha512-586.S
+      linux-x86//crypto/fipsmodule/sha1-586.S
+      linux-x86//crypto/fipsmodule/aesni-x86.S
+      linux-x86//crypto/fipsmodule/md5-586.S
+      linux-x86//crypto/fipsmodule/x86-mont.S
+      linux-x86//crypto/fipsmodule/bn-586.S
+      linux-x86//crypto/fipsmodule/aes-586.S
+      linux-x86//crypto/fipsmodule/sha256-586.S
+      linux-x86//crypto/fipsmodule/ghash-x86.S
     )
   endif (DEFINED MACOSX)
 endif (${TARGET_ARCH_ABI} STREQUAL x86)
@@ -435,6 +474,13 @@ set_property(TARGET boringssl PROPERTY POSITION_INDEPENDENT_CODE ON)
 add_definitions(-DDYNAMIC_ANNOTATIONS_ENABLED=0 -DBORINGSSL_ALLOW_CXX_RUNTIME -DBORINGSSL_IMPLEMENTATION -DBORINGSSL_NO_STATIC_INITIALIZER -DOPENSSL_SMALL)
 
 #add_definitions(-DBORINGSSL_SHARED_LIBRARY)
+
+if (DEFINED WINDOWS)
+	add_definitions(-DV8_DEPRECATION_WARNINGS -DNO_TCMALLOC -D_HAS_EXCEPTIONS=0 -D__STD_C -D_CRT_RAND_S -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE)
+	add_definitions(-D_CRT_NONSTDC_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
+	add_definitions(-DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_UNICODE -DUNICODE)
+	add_definitions(/wd4819 /wd4267 /wd4244)
+endif (DEFINED WINDOWS)
 
 include_directories("src/include")
 

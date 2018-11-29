@@ -47,5 +47,27 @@ list(GET _VERSION_LIST 0 VERSION_MAJOR)
 list(GET _VERSION_LIST 1 VERSION_MINOR)
 list(GET _VERSION_LIST 2 VERSION_BUILD)
 
+# Platform
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(MACOSX TRUE)
+else()
+  if (WIN32)
+    set(WINDOWS TRUE)
+    if (NOT DEFINED TARGET_ARCH_ABI)
+      if (${CMAKE_GENERATOR_PLATFORM} MATCHES "x86")
+        set(TARGET_ARCH_ABI x86)
+      elseif (${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
+        set(TARGET_ARCH_ABI x86_64)
+      else ()
+        message(WARNING "CMAKE_GENERATOR_PLATFORM not defined. Default ABI set to x86")
+        set(TARGET_ARCH_ABI x86)
+      endif (${CMAKE_GENERATOR_PLATFORM} MATCHES "x86")
+    endif (NOT DEFINED TARGET_ARCH_ABI)
+  else()
+    set(LINUX TRUE)
+  endif (WIN32)
+endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+
 # C++
 include(${ROOT}/Cpp.cmake)
