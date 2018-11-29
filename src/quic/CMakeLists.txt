@@ -412,7 +412,7 @@ if (DEFINED WINDOWS)
 	add_definitions(-DCOM_INIT_CHECK_HOOK_DISABLED -DV8_DEPRECATION_WARNINGS -D_HAS_EXCEPTIONS=0)
 	add_definitions(-D_CRT_RAND_S -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE)
 	add_definitions(-DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_UNICODE -DUNICODE -DUCHAR_TYPE=wchar_t)
-	add_definitions(-DCERT_CHAIN_PARA_HAS_EXTRA_FIELDS -DU_STATIC_IMPLEMENTATION)
+	add_definitions(-DCERT_CHAIN_PARA_HAS_EXTRA_FIELDS -DU_STATIC_IMPLEMENTATION -DCRYPTO_IMPLEMENTATION)
 	add_definitions(/wd4819 /wd4267 /wd4244 /wd4251 /wd4275 /wd4930 /wd4018 /wd4015 /wd4273)
 
 	include_directories(".")
@@ -460,9 +460,9 @@ if (DEFINED UNIX)
   endif (((NOT DEFINED NSS_CFLAGS) AND (NOT DEFINED NSS_LIBS)) OR ((NOT DEFINED NSPR_CFLAGS) AND (NOT DEFINED NSPR_LIBS)))
 
   add_definitions(${NSS_CFLAGS})
-	add_definitions(${NSPR_CFLAGS})
-	
-	aeres_lib(quic libboringssl ${LIBDIR}/libboringssl.a)
+  add_definitions(${NSPR_CFLAGS})
+
+  aeres_lib(quic libboringssl ${LIBDIR}/libboringssl.a)
 
   aeres_sys_lib(quic ${NSS_LDFLAGS})
   aeres_sys_lib(quic ${NSPR_LDFLAGS})
@@ -474,6 +474,8 @@ if (DEFINED UNIX)
 	aeres_use_pthread(quic)
 else()
 	aeres_lib(quic libboringssl ${LIBDIR}/boringssl.lib)
-	aeres_lib(quic libzlib ${LIBDIR}/zlib.lib)
+  aeres_lib(quic libzlib ${LIBDIR}/zlib.lib)
+
+  aeres_sys_lib(quic winmm)
 endif (DEFINED UNIX)
 

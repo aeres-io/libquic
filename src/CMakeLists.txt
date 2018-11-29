@@ -32,3 +32,6 @@ set(ROOT ${PROJECT_SOURCE_DIR}/..)
 
 add_subdirectory(third_party)
 add_subdirectory(quic)
+
+add_dependencies(quic boringssl)
+add_dependencies(quic zlib)

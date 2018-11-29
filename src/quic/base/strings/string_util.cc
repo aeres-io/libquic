@@ -328,4 +328,8 @@ char* WriteInto(std::string* str, size_t length_with_null) {
   return WriteIntoT(str, length_with_null);
 }
 
+wchar_t* WriteInto(std::wstring* str, size_t length_with_null) {
+  return WriteIntoT(str, length_with_null);
+}
+
 }  // namespace base
