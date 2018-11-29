@@ -30,4 +30,10 @@ project(libquic_src_thirdparty)
 
 set(ROOT ${PROJECT_SOURCE_DIR}/../..)
 
+include(${ROOT}/Config.cmake)
+
 add_subdirectory(boringssl)
+
+if (DEFINED WINDOWS)
+  add_subdirectory(zlib)
+endif (DEFINED WINDOWS)
