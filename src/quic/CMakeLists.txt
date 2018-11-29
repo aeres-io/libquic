@@ -67,6 +67,7 @@ set(
 	base/synchronization/atomic_flag.cc
 	base/synchronization/lock.cc
 	base/task_runner.cc
+	base/third_party/icu/icu_utf.cc
 	base/threading/post_task_and_reply_impl.cc
 	base/threading/scoped_blocking_call.cc
 	base/threading/sequence_local_storage_map.cc
@@ -300,7 +301,6 @@ if (DEFINED UNIX)
 		base/third_party/dmg_fp/g_fmt.cc
 		base/third_party/dynamic_annotations/dynamic_annotations.c
 		base/third_party/dmg_fp/dtoa.cc
-		base/third_party/icu/icu_utf.cc
 		base/third_party/libevent/buffer.c
 		base/third_party/libevent/evbuffer.c
 		base/third_party/libevent/evdns.c
@@ -380,6 +380,7 @@ elseif (DEFINED WINDOWS)
 		base/synchronization/waitable_event_win.cc
 		base/sync_socket_win.cc
 		base/threading/platform_thread_win.cc
+		base/threading/thread_collision_warner.cc
 		base/threading/thread_local_storage_win.cc
 		base/time/time_win.cc
 		base/win/object_watcher.cc
