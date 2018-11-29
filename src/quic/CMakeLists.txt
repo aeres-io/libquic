@@ -32,10 +32,6 @@ set(ROOT ${PROJECT_SOURCE_DIR}/../..)
 
 include(${ROOT}/Config.cmake)
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(MACOSX TRUE)
-endif()
-
 set(
   QUIC_SRC
 
@@ -45,17 +41,6 @@ set(
 	base/bind_helpers.cc
 	base/callback_helpers.cc
 	base/callback_internal.cc
-	base/files/file.cc
-	base/files/file_descriptor_watcher_posix.cc
-	base/files/file_enumerator.cc
-	base/files/file_enumerator_posix.cc
-	base/files/file_path.cc
-	base/files/file_path_constants.cc
-	base/files/file_posix.cc
-	base/files/file_tracing.cc
-	base/files/file_util.cc
-	base/files/file_util_posix.cc
-	base/files/scoped_file.cc
 	base/hash.cc
 	base/lazy_instance.cc
 	base/memory/ref_counted.cc
@@ -66,7 +51,7 @@ set(
 	base/message_loop/message_loop_task_runner.cc
 	base/message_loop/message_pump.cc
 	base/message_loop/message_pump_default.cc
-	base/message_loop/message_pump_libevent.cc
+	base/pending_task.cc
 	base/pickle.cc
 	base/rand_util.cc
 	base/run_loop.cc
@@ -78,29 +63,10 @@ set(
 	base/strings/string_split.cc
 	base/strings/string_util.cc
 	base/strings/string_util_constants.cc
-	base/strings/string16.cc
 	base/strings/stringprintf.cc
 	base/synchronization/atomic_flag.cc
 	base/synchronization/lock.cc
 	base/task_runner.cc
-	base/third_party/dmg_fp/g_fmt.cc
-	base/third_party/dynamic_annotations/dynamic_annotations.c
-	base/third_party/dmg_fp/dtoa.cc
-	base/third_party/icu/icu_utf.cc
-	base/third_party/libevent/buffer.c
-	base/third_party/libevent/evbuffer.c
-	base/third_party/libevent/evdns.c
-	base/third_party/libevent/event.c
-	base/third_party/libevent/event_tagging.c
-	base/third_party/libevent/evrpc.c
-	base/third_party/libevent/evutil.c
-	base/third_party/libevent/http.c
-	base/third_party/libevent/log.c
-	base/third_party/libevent/poll.c
-	base/third_party/libevent/select.c
-	base/third_party/libevent/signal.c
-	base/third_party/libevent/strlcpy.c
-	base/third_party/superfasthash/superfasthash.c
 	base/threading/post_task_and_reply_impl.cc
 	base/threading/scoped_blocking_call.cc
 	base/threading/sequence_local_storage_map.cc
@@ -109,7 +75,6 @@ set(
 	base/threading/thread.cc
 	base/threading/thread_id_name_manager.cc
 	base/threading/thread_local_storage.cc
-	base/threading/thread_local_storage_posix.cc
 	base/threading/thread_task_runner_handle.cc
 	base/time/clock.cc
 	base/time/default_clock.cc
@@ -130,12 +95,12 @@ set(
 	crypto/symmetric_key.cc
 	net/base/address_family.cc
 	net/base/address_list.cc
-	net/base/net_errors.cc
 	net/base/host_port_pair.cc
 	net/base/io_buffer.cc
 	net/base/ip_address.cc
 	net/base/ip_endpoint.cc
 	net/base/load_timing_info.cc
+	net/base/net_errors.cc
 	net/base/network_activity_monitor.cc
 	net/base/request_priority.cc
 	net/base/sockaddr_storage.cc
@@ -318,6 +283,44 @@ set(
 )
 
 if (DEFINED UNIX)
+	set(QUIC_SRC ${QUIC_SRC}
+		base/files/file.cc
+		base/files/file_descriptor_watcher_posix.cc
+		base/files/file_enumerator.cc
+		base/files/file_enumerator_posix.cc
+		base/files/file_path.cc
+		base/files/file_path_constants.cc
+		base/files/file_posix.cc
+		base/files/file_tracing.cc
+		base/files/file_util.cc
+		base/files/file_util_posix.cc
+		base/files/scoped_file.cc
+		base/message_loop/message_pump_libevent.cc
+		base/strings/string16.cc
+		base/third_party/dmg_fp/g_fmt.cc
+		base/third_party/dynamic_annotations/dynamic_annotations.c
+		base/third_party/dmg_fp/dtoa.cc
+		base/third_party/icu/icu_utf.cc
+		base/third_party/libevent/buffer.c
+		base/third_party/libevent/evbuffer.c
+		base/third_party/libevent/evdns.c
+		base/third_party/libevent/event.c
+		base/third_party/libevent/event_tagging.c
+		base/third_party/libevent/evrpc.c
+		base/third_party/libevent/evutil.c
+		base/third_party/libevent/http.c
+		base/third_party/libevent/log.c
+		base/third_party/libevent/poll.c
+		base/third_party/libevent/select.c
+		base/third_party/libevent/signal.c
+		base/third_party/libevent/strlcpy.c
+		base/third_party/superfasthash/superfasthash.c
+		base/threading/thread_local_storage_posix.cc
+    net/socket/socket_posix.cc
+    net/socket/tcp_socket_posix.cc
+    net/socket/udp_socket_posix.cc
+	)
+
   if (DEFINED MACOSX)
     set(
       QUIC_SRC ${QUIC_SRC}
@@ -326,7 +329,6 @@ if (DEFINED UNIX)
       base/mac/scoped_mach_port.cc
       base/message_loop/message_pump_mac.mm
       base/native_library_mac.mm
-      base/pending_task.cc
       base/posix/safe_strerror.cc
       base/rand_util_posix.cc
       base/strings/sys_string_conversions_mac.mm
@@ -343,16 +345,12 @@ if (DEFINED UNIX)
       base/time/time_conversion_posix.cc
       base/time/time_mac.cc
       net/base/net_errors_posix.cc
-      net/socket/socket_posix.cc
-      net/socket/tcp_socket_posix.cc
-      net/socket/udp_socket_posix.cc
     )
   else()
     set(
       QUIC_SRC ${QUIC_SRC}
 
       base/native_library_posix.cc
-      base/pending_task.cc
       base/posix/safe_strerror.cc
       base/rand_util_posix.cc
       base/strings/sys_string_conversions_posix.cc
@@ -368,11 +366,35 @@ if (DEFINED UNIX)
       base/time/time_exploded_posix.cc
       base/time/time_now_posix.cc
       net/base/net_errors_posix.cc
-      net/socket/socket_posix.cc
-      net/socket/tcp_socket_posix.cc
-      net/socket/udp_socket_posix.cc
     )
-  endif (DEFINED MACOSX)
+	endif (DEFINED MACOSX)
+elseif (DEFINED WINDOWS)
+	set(
+		QUIC_SRC ${QUIC_SRC}
+
+		base/message_loop/message_pump_win.cc
+		base/rand_util_win.cc
+		base/strings/sys_string_conversions_win.cc
+		base/synchronization/condition_variable_win.cc
+		base/synchronization/lock_impl_win.cc
+		base/synchronization/waitable_event_win.cc
+		base/sync_socket_win.cc
+		base/threading/platform_thread_win.cc
+		base/threading/thread_local_storage_win.cc
+		base/time/time_win.cc
+		base/win/object_watcher.cc
+		base/win/registry.cc
+		base/win/resource_util.cc
+		base/win/scoped_com_initializer.cc
+		base/win/scoped_handle.cc
+		crypto/capi_util.cc
+		net/base/net_errors_win.cc
+		net/base/winsock_init.cc
+		net/base/winsock_util.cc
+		net/socket/tcp_socket_win.cc
+		net/socket/udp_socket_win.cc
+		third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_msvc.cc
+	)
 endif (DEFINED UNIX)
 
 add_library(quic SHARED ${QUIC_SRC})
@@ -383,15 +405,26 @@ set_property(TARGET quic PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_definitions(-DHAVE_CONFIG_H -DNO_TCMALLOC -DCOMPONENT_BUILD -DBASE_IMPLEMENTATION -DNET_IMPLEMENTATION -DURL_IMPLEMENTATION)
 
-add_definitions(-DGOOGLE_PROTOBUF_NO_RTTI -DGOOGLE_PROTOBUF_NO_STATIC_INITIALIZER -DHAVE_PTHREAD)
+add_definitions(-DGOOGLE_PROTOBUF_NO_RTTI -DGOOGLE_PROTOBUF_NO_STATIC_INITIALIZER)
+
+if (DEFINED WINDOWS)
+	add_definitions(-DCOM_INIT_CHECK_HOOK_DISABLED -DV8_DEPRECATION_WARNINGS -D_HAS_EXCEPTIONS=0)
+	add_definitions(-D_CRT_RAND_S -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE)
+	add_definitions(-DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_UNICODE -DUNICODE -DUCHAR_TYPE=wchar_t)
+	add_definitions(-DCERT_CHAIN_PARA_HAS_EXTRA_FIELDS -DU_STATIC_IMPLEMENTATION)
+	add_definitions(/wd4819 /wd4267 /wd4244 /wd4251 /wd4275 /wd4930 /wd4018 /wd4015 /wd4273)
+
+	include_directories(".")
+	include_directories("../third_party/zlib")
+else()
+	add_definitions(-DHAVE_PTHREAD)
+endif (DEFINED WINDOWS)
 
 include_directories("..")
 include_directories("../third_party/boringssl/src/include")
 include_directories("third_party/protobuf/src")
 include_directories("third_party/googletest/src/googlemock/include")
 include_directories("gen")
-
-aeres_lib(quic libboringssl ${LIBDIR}/libboringssl.a)
 
 if (DEFINED UNIX)
   if (((NOT DEFINED NSS_CFLAGS) AND (NOT DEFINED NSS_LIBS)) OR ((NOT DEFINED NSPR_CFLAGS) AND (NOT DEFINED NSPR_LIBS)))
@@ -426,7 +459,10 @@ if (DEFINED UNIX)
   endif (((NOT DEFINED NSS_CFLAGS) AND (NOT DEFINED NSS_LIBS)) OR ((NOT DEFINED NSPR_CFLAGS) AND (NOT DEFINED NSPR_LIBS)))
 
   add_definitions(${NSS_CFLAGS})
-  add_definitions(${NSPR_CFLAGS})
+	add_definitions(${NSPR_CFLAGS})
+	
+	aeres_lib(quic libboringssl ${LIBDIR}/libboringssl.a)
+
   aeres_sys_lib(quic ${NSS_LDFLAGS})
   aeres_sys_lib(quic ${NSPR_LDFLAGS})
 
@@ -434,7 +470,9 @@ if (DEFINED UNIX)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -framework CoreFoundation -framework Cocoa -lz")
   endif (DEFINED MACOSX)
   
+	aeres_use_pthread(quic)
+else()
+	aeres_lib(quic libboringssl ${LIBDIR}/boringssl.lib)
+	aeres_lib(quic libzlib ${LIBDIR}/zlib.lib)
 endif (DEFINED UNIX)
-
-aeres_use_pthread(quic)
 
