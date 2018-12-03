@@ -149,6 +149,9 @@ void QuicChromiumPacketWriter::OnWriteComplete(int rv) {
     if (MaybeRetryAfterWriteError(rv))
       return;
 
+    if (!delegate_)
+      return;
+
     // If write error, then call delegate's HandleWriteError, which
     // may be able to migrate and rewrite packet on a new socket.
     // HandleWriteError returns the outcome of that rewrite attempt.
@@ -160,6 +163,9 @@ void QuicChromiumPacketWriter::OnWriteComplete(int rv) {
     RecordRetryCount(retry_count_);
     retry_count_ = 0;
   }
+
+  if (!delegate_)
+    return;
 
   if (rv < 0)
     delegate_->OnWriteError(rv);
