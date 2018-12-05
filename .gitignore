@@ -1,5 +1,66 @@
-out
-Local.mk
-Application.mk
-.clang_complete
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Editor related temporary files
 *.swp
+*.code-workspace
+.clang_complete
+.vscode
+
+# Visual studio files
+*.user
+.vs
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Generated files
+out
+x64
+x86
+cmake.out
+
+src/libquic/Debug/
+src/quic/.libquic.vcxproj.un~
+src/quic/Debug/
+src/quic/Release/
+src/quic/libquic.vcxproj~
+src/third_party/boringssl/Debug/
+src/third_party/boringssl/Release/
+src/third_party/zlib/Debug/
+src/third_party/zlib/Release/
+
+*~

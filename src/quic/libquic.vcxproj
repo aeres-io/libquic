@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{98DF7784-34B7-4CB9-B50D-834A9E4EDCC2}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>libquic</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>libquic</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\third_party\icu\source\common;$(ProjectDir)..\third_party\boringssl\src\include;;$(IncludePath);$(ProjectDir)..\;$(ProjectDir)..\;$(ProjectDir)third_party\protobuf\src;$(ProjectDir)..\third_party\zlib</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\third_party\icu\source\common;$(ProjectDir)..\third_party\boringssl\src\include;;$(IncludePath);$(ProjectDir)..\;$(ProjectDir)..\;$(ProjectDir)third_party\protobuf\src;$(ProjectDir)..\third_party\zlib</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\third_party\icu\source\common;$(ProjectDir)..\third_party\boringssl\src\include;$(IncludePath);$(IncludePath);$(ProjectDir)..\;$(ProjectDir)..\;$(ProjectDir)third_party\protobuf\src;$(ProjectDir)..\third_party\zlib</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\third_party\icu\source\common;$(ProjectDir)..\third_party\boringssl\src\include;;$(IncludePath);$(ProjectDir)..\;$(ProjectDir)..\;$(ProjectDir)third_party\protobuf\src;$(ProjectDir)..\third_party\zlib</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;COM_INIT_CHECK_HOOK_DISABLED;V8_DEPRECATION_WARNINGS;_HAS_EXCEPTIONS=0;_CRT_RAND_S;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;DEPRECATEDENUMERATOR(x)=[[deprecated(x)]];_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;UNICODE;UCHAR_TYPE=wchar_t;GOOGLE_PROTOBUF_NO_RTTI;GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER;CERT_CHAIN_PARA_HAS_EXTRA_FIELDS;U_STATIC_IMPLEMENTATION</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 /wd4091 /wd4127 /wd4251 /wd4275 /wd4312 /wd4324 /wd4351 /wd4355 /wd4503 /wd4589 /wd4611 /wd4100 /wd4121 /wd4244 /wd4505 /wd4510 /wd4512 /wd4610 /wd4838 /wd4995 /wd4996 /wd4456 /wd4457 /wd4458 /wd4459 /wd4267 /wd4702
+ %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN64;_DEBUG;COM_INIT_CHECK_HOOK_DISABLED;V8_DEPRECATION_WARNINGS;_HAS_EXCEPTIONS=0;_CRT_RAND_S;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;DEPRECATEDENUMERATOR(x)=[[deprecated(x)]];_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;UNICODE;UCHAR_TYPE=wchar_t;GOOGLE_PROTOBUF_NO_RTTI;GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER;CERT_CHAIN_PARA_HAS_EXTRA_FIELDS;U_STATIC_IMPLEMENTATION</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary />
+      <AdditionalOptions>/utf-8 /wd4091 /wd4127 /wd4251 /wd4275 /wd4312 /wd4324 /wd4351 /wd4355 /wd4503 /wd4589 /wd4611 /wd4100 /wd4121 /wd4244 /wd4505 /wd4510 /wd4512 /wd4610 /wd4838 /wd4995 /wd4996 /wd4456 /wd4457 /wd4458 /wd4459 /wd4267 /wd4702
+ %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;COM_INIT_CHECK_HOOK_DISABLED;V8_DEPRECATION_WARNINGS;_HAS_EXCEPTIONS=0;_CRT_RAND_S;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;DEPRECATEDENUMERATOR(x)=[[deprecated(x)]];_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;UNICODE;UCHAR_TYPE=wchar_t;GOOGLE_PROTOBUF_NO_RTTI;GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER;CERT_CHAIN_PARA_HAS_EXTRA_FIELDS;U_STATIC_IMPLEMENTATION</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 /wd4091 /wd4127 /wd4251 /wd4275 /wd4312 /wd4324 /wd4351 /wd4355 /wd4503 /wd4589 /wd4611 /wd4100 /wd4121 /wd4244 /wd4505 /wd4510 /wd4512 /wd4610 /wd4838 /wd4995 /wd4996 /wd4456 /wd4457 /wd4458 /wd4459 /wd4267 /wd4702
+ %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN64;COM_INIT_CHECK_HOOK_DISABLED;V8_DEPRECATION_WARNINGS;_HAS_EXCEPTIONS=0;_CRT_RAND_S;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;DEPRECATEDENUMERATOR(x)=[[deprecated(x)]];_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;UNICODE;UCHAR_TYPE=wchar_t;GOOGLE_PROTOBUF_NO_RTTI;GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER;CERT_CHAIN_PARA_HAS_EXTRA_FIELDS;U_STATIC_IMPLEMENTATION</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary />
+      <AdditionalOptions>/utf-8 /wd4091 /wd4127 /wd4251 /wd4275 /wd4312 /wd4324 /wd4351 /wd4355 /wd4503 /wd4589 /wd4611 /wd4100 /wd4121 /wd4244 /wd4505 /wd4510 /wd4512 /wd4610 /wd4838 /wd4995 /wd4996 /wd4456 /wd4457 /wd4458 /wd4459 /wd4267 /wd4702
+ %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="base\atomicops.h" />
+    <ClInclude Include="base\atomicops_internals_x86_msvc.h" />
+    <ClInclude Include="base\atomic_ref_count.h" />
+    <ClInclude Include="base\at_exit.h" />
+    <ClInclude Include="base\auto_reset.h" />
+    <ClInclude Include="base\base64.h" />
+    <ClInclude Include="base\base_export.h" />
+    <ClInclude Include="base\bind.h" />
+    <ClInclude Include="base\bind_helpers.h" />
+    <ClInclude Include="base\bind_internal.h" />
+    <ClInclude Include="base\bits.h" />
+    <ClInclude Include="base\bit_cast.h" />
+    <ClInclude Include="base\callback.h" />
+    <ClInclude Include="base\callback_forward.h" />
+    <ClInclude Include="base\callback_helpers.h" />
+    <ClInclude Include="base\callback_internal.h" />
+    <ClInclude Include="base\cancelable_callback.h" />
+    <ClInclude Include="base\compiler_specific.h" />
+    <ClInclude Include="base\containers\circular_deque.h" />
+    <ClInclude Include="base\containers\flat_map.h" />
+    <ClInclude Include="base\containers\flat_set.h" />
+    <ClInclude Include="base\containers\flat_tree.h" />
+    <ClInclude Include="base\containers\hash_tables.h" />
+    <ClInclude Include="base\containers\mru_cache.h" />
+    <ClInclude Include="base\containers\queue.h" />
+    <ClInclude Include="base\containers\small_map.h" />
+    <ClInclude Include="base\containers\span.h" />
+    <ClInclude Include="base\containers\stack.h" />
+    <ClInclude Include="base\containers\stack_container.h" />
+    <ClInclude Include="base\containers\vector_buffer.h" />
+    <ClInclude Include="base\critical_closure.h" />
+    <ClInclude Include="base\format_macros.h" />
+    <ClInclude Include="base\generated_build_date.h" />
+    <ClInclude Include="base\hash.h" />
+    <ClInclude Include="base\lazy_instance.h" />
+    <ClInclude Include="base\macros.h" />
+    <ClInclude Include="base\memory\free_deleter.h" />
+    <ClInclude Include="base\memory\ptr_util.h" />
+    <ClInclude Include="base\memory\raw_scoped_refptr_mismatch_checker.h" />
+    <ClInclude Include="base\memory\ref_counted.h" />
+    <ClInclude Include="base\memory\scoped_refptr.h" />
+    <ClInclude Include="base\memory\singleton.h" />
+    <ClInclude Include="base\memory\weak_ptr.h" />
+    <ClInclude Include="base\message_loop\incoming_task_queue.h" />
+    <ClInclude Include="base\message_loop\message_loop.h" />
+    <ClInclude Include="base\message_loop\message_loop_task_runner.h" />
+    <ClInclude Include="base\message_loop\message_pump.h" />
+    <ClInclude Include="base\message_loop\message_pump_default.h" />
+    <ClInclude Include="base\message_loop\message_pump_win.h" />
+    <ClInclude Include="base\message_loop\timer_slack.h" />
+    <ClInclude Include="base\modp_b64.h" />
+    <ClInclude Include="base\modp_b64_data.h" />
+    <ClInclude Include="base\numerics\checked_math.h" />
+    <ClInclude Include="base\numerics\checked_math_impl.h" />
+    <ClInclude Include="base\numerics\clamped_math.h" />
+    <ClInclude Include="base\numerics\clamped_math_impl.h" />
+    <ClInclude Include="base\numerics\math_constants.h" />
+    <ClInclude Include="base\numerics\safe_conversions.h" />
+    <ClInclude Include="base\numerics\safe_conversions_arm_impl.h" />
+    <ClInclude Include="base\numerics\safe_conversions_impl.h" />
+    <ClInclude Include="base\numerics\safe_math.h" />
+    <ClInclude Include="base\numerics\safe_math_arm_impl.h" />
+    <ClInclude Include="base\numerics\safe_math_clang_gcc_impl.h" />
+    <ClInclude Include="base\numerics\safe_math_shared_impl.h" />
+    <ClInclude Include="base\observer_list.h" />
+    <ClInclude Include="base\optional.h" />
+    <ClInclude Include="base\pending_task.h" />
+    <ClInclude Include="base\pickle.h" />
+    <ClInclude Include="base\post_task_and_reply_with_result_internal.h" />
+    <ClInclude Include="base\rand_util.h" />
+    <ClInclude Include="base\run_loop.h" />
+    <ClInclude Include="base\scoped_clear_errno.h" />
+    <ClInclude Include="base\sequenced_task_runner.h" />
+    <ClInclude Include="base\sequence_checker.h" />
+    <ClInclude Include="base\sequence_checker_impl.h" />
+    <ClInclude Include="base\single_thread_task_runner.h" />
+    <ClInclude Include="base\stl_util.h" />
+    <ClInclude Include="base\strings\nullable_string16.h" />
+    <ClInclude Include="base\strings\safe_sprintf.h" />
+    <ClInclude Include="base\strings\strcat.h" />
+    <ClInclude Include="base\strings\string16.h" />
+    <ClInclude Include="base\strings\stringize_macros.h" />
+    <ClInclude Include="base\strings\stringprintf.h" />
+    <ClInclude Include="base\strings\string_number_conversions.h" />
+    <ClInclude Include="base\strings\string_piece.h" />
+    <ClInclude Include="base\strings\string_piece_forward.h" />
+    <ClInclude Include="base\strings\string_split.h" />
+    <ClInclude Include="base\strings\string_tokenizer.h" />
+    <ClInclude Include="base\strings\string_util.h" />
+    <ClInclude Include="base\strings\string_util_win.h" />
+    <ClInclude Include="base\strings\sys_string_conversions.h" />
+    <ClInclude Include="base\synchronization\atomic_flag.h" />
+    <ClInclude Include="base\synchronization\cancellation_flag.h" />
+    <ClInclude Include="base\synchronization\condition_variable.h" />
+    <ClInclude Include="base\synchronization\lock.h" />
+    <ClInclude Include="base\synchronization\lock_impl.h" />
+    <ClInclude Include="base\synchronization\spin_wait.h" />
+    <ClInclude Include="base\synchronization\waitable_event.h" />
+    <ClInclude Include="base\sync_socket.h" />
+    <ClInclude Include="base\sys_byteorder.h" />
+    <ClInclude Include="base\task_runner.h" />
+    <ClInclude Include="base\task_runner_util.h" />
+    <ClInclude Include="base\template_util.h" />
+    <ClInclude Include="base\threading\platform_thread.h" />
+    <ClInclude Include="base\threading\post_task_and_reply_impl.h" />
+    <ClInclude Include="base\threading\scoped_blocking_call.h" />
+    <ClInclude Include="base\threading\sequenced_task_runner_handle.h" />
+    <ClInclude Include="base\threading\sequence_local_storage_map.h" />
+    <ClInclude Include="base\threading\sequence_local_storage_slot.h" />
+    <ClInclude Include="base\threading\simple_thread.h" />
+    <ClInclude Include="base\threading\thread.h" />
+    <ClInclude Include="base\threading\thread_collision_warner.h" />
+    <ClInclude Include="base\threading\thread_id_name_manager.h" />
+    <ClInclude Include="base\threading\thread_local.h" />
+    <ClInclude Include="base\threading\thread_local_storage.h" />
+    <ClInclude Include="base\threading\thread_restrictions.h" />
+    <ClInclude Include="base\threading\thread_task_runner_handle.h" />
+    <ClInclude Include="base\threading\watchdog.h" />
+    <ClInclude Include="base\timer\elapsed_timer.h" />
+    <ClInclude Include="base\timer\hi_res_timer_manager.h" />
+    <ClInclude Include="base\timer\timer.h" />
+    <ClInclude Include="base\time\clock.h" />
+    <ClInclude Include="base\time\default_clock.h" />
+    <ClInclude Include="base\time\default_tick_clock.h" />
+    <ClInclude Include="base\time\tick_clock.h" />
+    <ClInclude Include="base\time\time.h" />
+    <ClInclude Include="base\tuple.h" />
+    <ClInclude Include="base\version.h" />
+    <ClInclude Include="base\win\base_features.h" />
+    <ClInclude Include="base\win\com_init_check_hook.h" />
+    <ClInclude Include="base\win\current_module.h" />
+    <ClInclude Include="base\win\object_watcher.h" />
+    <ClInclude Include="base\win\registry.h" />
+    <ClInclude Include="base\win\resource_util.h" />
+    <ClInclude Include="base\win\scoped_com_initializer.h" />
+    <ClInclude Include="base\win\scoped_handle.h" />
+    <ClInclude Include="base\win\scoped_windows_thread_environment.h" />
+    <ClInclude Include="base\win\win_util.h" />
+    <ClInclude Include="build\buildflag.h" />
+    <ClInclude Include="build\build_config.h" />
+    <ClInclude Include="crypto\capi_util.h" />
+    <ClInclude Include="crypto\crypto_export.h" />
+    <ClInclude Include="crypto\ec_private_key.h" />
+    <ClInclude Include="crypto\hkdf.h" />
+    <ClInclude Include="crypto\hmac.h" />
+    <ClInclude Include="crypto\openssl_util.h" />
+    <ClInclude Include="crypto\random.h" />
+    <ClInclude Include="crypto\rsa_private_key.h" />
+    <ClInclude Include="crypto\scoped_capi_types.h" />
+    <ClInclude Include="crypto\secure_hash.h" />
+    <ClInclude Include="crypto\secure_util.h" />
+    <ClInclude Include="crypto\signature_verifier.h" />
+    <ClInclude Include="crypto\symmetric_key.h" />
+    <ClInclude Include="crypto\wincrypt_shim.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\arena.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\arenastring.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\generated_enum_util.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\generated_message_table_driven.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\generated_message_util.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\has_bits.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\io\coded_stream.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\io\coded_stream_inl.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\io\zero_copy_stream.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\io\zero_copy_stream_impl_lite.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\message_lite.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\metadata_lite.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\repeated_field.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\atomicops.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\atomicops_internals_x86_msvc.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\atomic_sequence_num.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\bytestream.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\callback.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\casts.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\common.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\fastmem.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\hash.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\int128.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\macros.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\map_util.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\mathlimits.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\mutex.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\once.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\platform_macros.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\port.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\scoped_ptr.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\shared_ptr.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\status.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\statusor.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\stl_util.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\stringpiece.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\stringprintf.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\strutil.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\template_util.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\time.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\stubs\type_traits.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\wire_format_lite.h" />
+    <ClInclude Include="third_party\protobuf\src\google\protobuf\wire_format_lite_inl.h" />
+    <ClInclude Include="net\base\address_family.h" />
+    <ClInclude Include="net\base\address_list.h" />
+    <ClInclude Include="net\base\arena.h" />
+    <ClInclude Include="net\base\backoff_entry.h" />
+    <ClInclude Include="net\base\backoff_entry_serializer.h" />
+    <ClInclude Include="net\base\cache_type.h" />
+    <ClInclude Include="net\base\completion_callback.h" />
+    <ClInclude Include="net\base\expiring_cache.h" />
+    <ClInclude Include="net\base\hex_utils.h" />
+    <ClInclude Include="net\base\host_port_pair.h" />
+    <ClInclude Include="net\base\int128.h" />
+    <ClInclude Include="net\base\interval.h" />
+    <ClInclude Include="net\base\interval_set.h" />
+    <ClInclude Include="net\base\iovec.h" />
+    <ClInclude Include="net\base\io_buffer.h" />
+    <ClInclude Include="net\base\ip_address.h" />
+    <ClInclude Include="net\base\ip_endpoint.h" />
+    <ClInclude Include="net\base\linked_hash_map.h" />
+    <ClInclude Include="net\base\load_flags.h" />
+    <ClInclude Include="net\base\load_flags_list.h" />
+    <ClInclude Include="net\base\load_states.h" />
+    <ClInclude Include="net\base\load_states_list.h" />
+    <ClInclude Include="net\base\load_timing_info.h" />
+    <ClInclude Include="net\base\network_throttle_manager.h" />
+    <ClInclude Include="net\base\network_throttle_manager_impl.h" />
+    <ClInclude Include="net\base\net_errors.h" />
+    <ClInclude Include="net\base\net_error_list.h" />
+    <ClInclude Include="net\base\net_export.h" />
+    <ClInclude Include="net\base\net_info_source_list.h" />
+    <ClInclude Include="net\base\net_string_util.h" />
+    <ClInclude Include="net\base\percentile_estimator.h" />
+    <ClInclude Include="net\base\privacy_mode.h" />
+    <ClInclude Include="net\base\rand_callback.h" />
+    <ClInclude Include="net\base\request_priority.h" />
+    <ClInclude Include="net\base\sockaddr_storage.h" />
+    <ClInclude Include="net\base\sys_addrinfo.h" />
+    <ClInclude Include="net\base\winsock_init.h" />
+    <ClInclude Include="net\base\winsock_util.h" />
+    <ClInclude Include="net\net_features.h" />
+    <ClInclude Include="net\quic\chromium\quic_chromium_packet_reader.h" />
+    <ClInclude Include="net\quic\chromium\quic_chromium_packet_writer.h" />
+    <ClInclude Include="net\quic\core\congestion_control\cubic_bytes.h" />
+    <ClInclude Include="net\quic\core\congestion_control\general_loss_algorithm.h" />
+    <ClInclude Include="net\quic\core\congestion_control\hybrid_slow_start.h" />
+    <ClInclude Include="net\quic\core\congestion_control\loss_detection_interface.h" />
+    <ClInclude Include="net\quic\core\congestion_control\pacing_sender.h" />
+    <ClInclude Include="net\quic\core\congestion_control\prr_sender.h" />
+    <ClInclude Include="net\quic\core\congestion_control\rtt_stats.h" />
+    <ClInclude Include="net\quic\core\congestion_control\send_algorithm_interface.h" />
+    <ClInclude Include="net\quic\core\congestion_control\tcp_cubic_sender_bytes.h" />
+    <ClInclude Include="net\quic\core\congestion_control\windowed_filter.h" />
+    <ClInclude Include="net\quic\core\crypto\aead_base_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aead_base_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aes_128_gcm_12_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aes_128_gcm_12_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aes_128_gcm_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aes_128_gcm_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aes_256_gcm_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\aes_256_gcm_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\cert_compressor.h" />
+    <ClInclude Include="net\quic\core\crypto\chacha20_poly1305_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\chacha20_poly1305_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\chacha20_poly1305_tls_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\chacha20_poly1305_tls_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\channel_id.h" />
+    <ClInclude Include="net\quic\core\crypto\common_cert_set.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_framer.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_handshake.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_handshake_message.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_message_parser.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_protocol.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_secret_boxer.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_server_config_protobuf.h" />
+    <ClInclude Include="net\quic\core\crypto\crypto_utils.h" />
+    <ClInclude Include="net\quic\core\crypto\curve25519_key_exchange.h" />
+    <ClInclude Include="net\quic\core\crypto\ephemeral_key_source.h" />
+    <ClInclude Include="net\quic\core\crypto\key_exchange.h" />
+    <ClInclude Include="net\quic\core\crypto\null_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\null_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\p256_key_exchange.h" />
+    <ClInclude Include="net\quic\core\crypto\proof_source.h" />
+    <ClInclude Include="net\quic\core\crypto\proof_verifier.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_compressed_certs_cache.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_crypto_client_config.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_crypto_proof.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_crypto_server_config.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_decrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_encrypter.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_random.h" />
+    <ClInclude Include="net\quic\core\crypto\quic_tls_adapter.h" />
+    <ClInclude Include="net\quic\core\crypto\scoped_evp_aead_ctx.h" />
+    <ClInclude Include="net\quic\core\frames\quic_ack_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_blocked_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_connection_close_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_control_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_goaway_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_mtu_discovery_frame.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="net\quic\core\frames\quic_padding_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_ping_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_rst_stream_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_stop_waiting_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_stream_frame.h" />
+    <ClInclude Include="net\quic\core\frames\quic_window_update_frame.h" />
+    <ClInclude Include="net\quic\core\packet_number_indexed_queue.h" />
+    <ClInclude Include="net\quic\core\priority_write_scheduler.h" />
+    <ClInclude Include="net\quic\core\proto\cached_network_parameters.pb.h" />
+    <ClInclude Include="net\quic\core\proto\source_address_token.pb.h" />
+    <ClInclude Include="net\quic\core\quic_ack_listener_interface.h" />
+    <ClInclude Include="net\quic\core\quic_alarm.h" />
+    <ClInclude Include="net\quic\core\quic_alarm_factory.h" />
+    <ClInclude Include="net\quic\core\quic_arena_scoped_ptr.h" />
+    <ClInclude Include="net\quic\core\quic_bandwidth.h" />
+    <ClInclude Include="net\quic\core\quic_blocked_writer_interface.h" />
+    <ClInclude Include="net\quic\core\quic_buffered_packet_store.h" />
+    <ClInclude Include="net\quic\core\quic_buffer_allocator.h" />
+    <ClInclude Include="net\quic\core\quic_config.h" />
+    <ClInclude Include="net\quic\core\quic_connection.h" />
+    <ClInclude Include="net\quic\core\quic_connection_close_delegate_interface.h" />
+    <ClInclude Include="net\quic\core\quic_connection_stats.h" />
+    <ClInclude Include="net\quic\core\quic_constants.h" />
+    <ClInclude Include="net\quic\core\quic_control_frame_manager.h" />
+    <ClInclude Include="net\quic\core\quic_crypto_client_handshaker.h" />
+    <ClInclude Include="net\quic\core\quic_crypto_client_stream.h" />
+    <ClInclude Include="net\quic\core\quic_crypto_handshaker.h" />
+    <ClInclude Include="net\quic\core\quic_crypto_server_handshaker.h" />
+    <ClInclude Include="net\quic\core\quic_crypto_server_stream.h" />
+    <ClInclude Include="net\quic\core\quic_crypto_stream.h" />
+    <ClInclude Include="net\quic\core\quic_data_reader.h" />
+    <ClInclude Include="net\quic\core\quic_data_writer.h" />
+    <ClInclude Include="net\quic\core\quic_error_codes.h" />
+    <ClInclude Include="net\quic\core\quic_flags_list.h" />
+    <ClInclude Include="net\quic\core\quic_flow_controller.h" />
+    <ClInclude Include="net\quic\core\quic_framer.h" />
+    <ClInclude Include="net\quic\core\quic_iovector.h" />
+    <ClInclude Include="net\quic\core\quic_one_block_arena.h" />
+    <ClInclude Include="net\quic\core\quic_packets.h" />
+    <ClInclude Include="net\quic\core\quic_packet_creator.h" />
+    <ClInclude Include="net\quic\core\quic_packet_generator.h" />
+    <ClInclude Include="net\quic\core\quic_packet_writer.h" />
+    <ClInclude Include="net\quic\core\quic_pending_retransmission.h" />
+    <ClInclude Include="net\quic\core\quic_received_packet_manager.h" />
+    <ClInclude Include="net\quic\core\quic_sent_packet_manager.h" />
+    <ClInclude Include="net\quic\core\quic_server_id.h" />
+    <ClInclude Include="net\quic\core\quic_session.h" />
+    <ClInclude Include="net\quic\core\quic_simple_buffer_allocator.h" />
+    <ClInclude Include="net\quic\core\quic_socket_address_coder.h" />
+    <ClInclude Include="net\quic\core\quic_stream.h" />
+    <ClInclude Include="net\quic\core\quic_stream_frame_data_producer.h" />
+    <ClInclude Include="net\quic\core\quic_stream_send_buffer.h" />
+    <ClInclude Include="net\quic\core\quic_stream_sequencer.h" />
+    <ClInclude Include="net\quic\core\quic_stream_sequencer_buffer.h" />
+    <ClInclude Include="net\quic\core\quic_tag.h" />
+    <ClInclude Include="net\quic\core\quic_time.h" />
+    <ClInclude Include="net\quic\core\quic_transmission_info.h" />
+    <ClInclude Include="net\quic\core\quic_types.h" />
+    <ClInclude Include="net\quic\core\quic_unacked_packet_map.h" />
+    <ClInclude Include="net\quic\core\quic_utils.h" />
+    <ClInclude Include="net\quic\core\quic_versions.h" />
+    <ClInclude Include="net\quic\core\quic_version_manager.h" />
+    <ClInclude Include="net\quic\core\quic_write_blocked_list.h" />
+    <ClInclude Include="net\quic\core\session_notifier_interface.h" />
+    <ClInclude Include="net\quic\core\tls_client_handshaker.h" />
+    <ClInclude Include="net\quic\core\tls_handshaker.h" />
+    <ClInclude Include="net\quic\core\tls_server_handshaker.h" />
+    <ClInclude Include="net\quic\core\write_scheduler.h" />
+    <ClInclude Include="net\quic\platform\api\quic_aligned.h" />
+    <ClInclude Include="net\quic\platform\api\quic_arraysize.h" />
+    <ClInclude Include="net\quic\platform\api\quic_clock.h" />
+    <ClInclude Include="net\quic\platform\api\quic_containers.h" />
+    <ClInclude Include="net\quic\platform\api\quic_endian.h" />
+    <ClInclude Include="net\quic\platform\api\quic_export.h" />
+    <ClInclude Include="net\quic\platform\api\quic_flags.h" />
+    <ClInclude Include="net\quic\platform\api\quic_flag_utils.h" />
+    <ClInclude Include="net\quic\platform\api\quic_lru_cache.h" />
+    <ClInclude Include="net\quic\platform\api\quic_map_util.h" />
+    <ClInclude Include="net\quic\platform\api\quic_mem_slice.h" />
+    <ClInclude Include="net\quic\platform\api\quic_mem_slice_span.h" />
+    <ClInclude Include="net\quic\platform\api\quic_mutex.h" />
+    <ClInclude Include="net\quic\platform\api\quic_optional.h" />
+    <ClInclude Include="net\quic\platform\api\quic_pcc_sender.h" />
+    <ClInclude Include="net\quic\platform\api\quic_prefetch.h" />
+    <ClInclude Include="net\quic\platform\api\quic_ptr_util.h" />
+    <ClInclude Include="net\quic\platform\api\quic_reconstruct_object.h" />
+    <ClInclude Include="net\quic\platform\api\quic_reference_counted.h" />
+    <ClInclude Include="net\quic\platform\api\quic_string_utils.h" />
+    <ClInclude Include="net\quic\platform\api\quic_str_cat.h" />
+    <ClInclude Include="net\quic\platform\api\quic_text_utils.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_aligned_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_arraysize_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_chromium_clock.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_containers_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_endian_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_export_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_flags_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_flag_utils_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_lru_cache_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_map_util_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_mem_slice_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_mem_slice_span_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_mutex_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_optional_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_pcc_sender_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_prefetch_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_ptr_util_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_reconstruct_object_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_reference_counted_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_string_utils_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_str_cat_impl.h" />
+    <ClInclude Include="net\quic\platform\impl\quic_text_utils_impl.h" />
+    <ClInclude Include="net\quic\quartc\quartc_session.h" />
+    <ClInclude Include="net\quic\quartc\quartc_session_interface.h" />
+    <ClInclude Include="net\quic\quartc\quartc_stream.h" />
+    <ClInclude Include="net\quic\quartc\quartc_stream_interface.h" />
+    <ClInclude Include="net\socket\client_socket_handle.h" />
+    <ClInclude Include="net\socket\client_socket_pool.h" />
+    <ClInclude Include="net\socket\connection_attempts.h" />
+    <ClInclude Include="net\socket\datagram_client_socket.h" />
+    <ClInclude Include="net\socket\datagram_server_socket.h" />
+    <ClInclude Include="net\socket\datagram_socket.h" />
+    <ClInclude Include="net\socket\diff_serv_code_point.h" />
+    <ClInclude Include="net\socket\next_proto.h" />
+    <ClInclude Include="net\socket\server_socket.h" />
+    <ClInclude Include="net\socket\socket.h" />
+    <ClInclude Include="net\socket\socket_descriptor.h" />
+    <ClInclude Include="net\socket\socket_options.h" />
+    <ClInclude Include="net\socket\socket_performance_watcher.h" />
+    <ClInclude Include="net\socket\socket_performance_watcher_factory.h" />
+    <ClInclude Include="net\socket\socket_tag.h" />
+    <ClInclude Include="net\socket\ssl_server_socket.h" />
+    <ClInclude Include="net\socket\ssl_server_socket_impl.h" />
+    <ClInclude Include="net\socket\ssl_socket.h" />
+    <ClInclude Include="net\socket\stream_socket.h" />
+    <ClInclude Include="net\socket\tcp_client_socket.h" />
+    <ClInclude Include="net\socket\tcp_server_socket.h" />
+    <ClInclude Include="net\socket\tcp_socket.h" />
+    <ClInclude Include="net\socket\tcp_socket_win.h" />
+    <ClInclude Include="net\socket\udp_client_socket.h" />
+    <ClInclude Include="net\socket\udp_server_socket.h" />
+    <ClInclude Include="net\socket\udp_socket.h" />
+    <ClInclude Include="net\socket\udp_socket_win.h" />
+    <ClInclude Include="net\ssl\channel_id_store.h" />
+    <ClInclude Include="net\ssl\default_channel_id_store.h" />
+    <ClInclude Include="net\ssl\ssl_client_cert_type.h" />
+    <ClInclude Include="net\ssl\ssl_client_session_cache.h" />
+    <ClInclude Include="net\ssl\ssl_config.h" />
+    <ClInclude Include="net\ssl\ssl_config_service.h" />
+    <ClInclude Include="net\ssl\ssl_connection_status_flags.h" />
+    <ClInclude Include="net\ssl\ssl_info.h" />
+    <ClInclude Include="net\ssl\ssl_platform_key_util.h" />
+    <ClInclude Include="net\ssl\ssl_server_config.h" />
+    <ClInclude Include="net\ssl\token_binding.h" />
+    <ClInclude Include="net\tools\quic\chlo_extractor.h" />
+    <ClInclude Include="net\tools\quic\quic_dispatcher.h" />
+    <ClInclude Include="net\tools\quic\quic_per_connection_packet_writer.h" />
+    <ClInclude Include="net\tools\quic\quic_process_packet_interface.h" />
+    <ClInclude Include="net\tools\quic\quic_simple_crypto_server_stream_helper.h" />
+    <ClInclude Include="net\tools\quic\quic_time_wait_list_manager.h" />
+    <ClInclude Include="net\tools\quic\relay\quartc_session_visitor.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_alarm_factory_impl.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_crypto_client_stream_visitor.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_gear_session_delegate.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_raw_client.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_raw_client_handshaker.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_raw_connection.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_raw_dispatcher.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_raw_session.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_raw_stream.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_relay_client_config.h" />
+    <ClInclude Include="net\tools\quic\relay\quic_relay_server_session_delegate.h" />
+    <ClInclude Include="net\tools\quic\stateless_rejector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="base\at_exit.cc" />
+    <ClCompile Include="base\base64.cc" />
+    <ClCompile Include="base\bind_helpers.cc" />
+    <ClCompile Include="base\callback_helpers.cc" />
+    <ClCompile Include="base\callback_internal.cc" />
+    <ClCompile Include="base\hash.cc" />
+    <ClCompile Include="base\lazy_instance.cc" />
+    <ClCompile Include="base\memory\ref_counted.cc" />
+    <ClCompile Include="base\memory\singleton.cc" />
+    <ClCompile Include="base\memory\weak_ptr.cc" />
+    <ClCompile Include="base\message_loop\incoming_task_queue.cc" />
+    <ClCompile Include="base\message_loop\message_loop.cc" />
+    <ClCompile Include="base\message_loop\message_loop_task_runner.cc" />
+    <ClCompile Include="base\message_loop\message_pump.cc" />
+    <ClCompile Include="base\message_loop\message_pump_default.cc" />
+    <ClCompile Include="base\message_loop\message_pump_win.cc" />
+    <ClCompile Include="base\modp_b64.cc" />
+    <ClCompile Include="base\pending_task.cc" />
+    <ClCompile Include="base\pickle.cc" />
+    <ClCompile Include="base\rand_util.cc" />
+    <ClCompile Include="base\rand_util_win.cc" />
+    <ClCompile Include="base\run_loop.cc" />
+    <ClCompile Include="base\sequenced_task_runner.cc" />
+    <ClCompile Include="base\strings\stringprintf.cc" />
+    <ClCompile Include="base\strings\string_number_conversions.cc" />
+    <ClCompile Include="base\strings\string_piece.cc" />
+    <ClCompile Include="base\strings\string_split.cc" />
+    <ClCompile Include="base\strings\string_util.cc" />
+    <ClCompile Include="base\strings\string_util_constants.cc" />
+    <ClCompile Include="base\strings\sys_string_conversions_win.cc" />
+    <ClCompile Include="base\synchronization\atomic_flag.cc" />
+    <ClCompile Include="base\synchronization\condition_variable_win.cc" />
+    <ClCompile Include="base\synchronization\lock.cc" />
+    <ClCompile Include="base\synchronization\lock_impl_win.cc" />
+    <ClCompile Include="base\synchronization\waitable_event_win.cc" />
+    <ClCompile Include="base\sync_socket_win.cc" />
+    <ClCompile Include="base\task_runner.cc" />
+    <ClCompile Include="base\threading\platform_thread_win.cc" />
+    <ClCompile Include="base\threading\post_task_and_reply_impl.cc" />
+    <ClCompile Include="base\threading\scoped_blocking_call.cc" />
+    <ClCompile Include="base\threading\sequenced_task_runner_handle.cc" />
+    <ClCompile Include="base\threading\sequence_local_storage_map.cc" />
+    <ClCompile Include="base\threading\simple_thread.cc" />
+    <ClCompile Include="base\threading\thread.cc" />
+    <ClCompile Include="base\threading\thread_collision_warner.cc" />
+    <ClCompile Include="base\threading\thread_id_name_manager.cc" />
+    <ClCompile Include="base\threading\thread_local_storage.cc" />
+    <ClCompile Include="base\threading\thread_local_storage_win.cc" />
+    <ClCompile Include="base\threading\thread_restrictions.cc" />
+    <ClCompile Include="base\threading\thread_task_runner_handle.cc" />
+    <ClCompile Include="base\timer\timer.cc" />
+    <ClCompile Include="base\time\clock.cc" />
+    <ClCompile Include="base\time\default_clock.cc" />
+    <ClCompile Include="base\time\default_tick_clock.cc" />
+    <ClCompile Include="base\time\tick_clock.cc" />
+    <ClCompile Include="base\time\time.cc" />
+    <ClCompile Include="base\time\time_win.cc" />
+    <ClCompile Include="base\version.cc" />
+    <ClCompile Include="base\win\object_watcher.cc" />
+    <ClCompile Include="base\win\registry.cc" />
+    <ClCompile Include="base\win\resource_util.cc" />
+    <ClCompile Include="base\win\scoped_com_initializer.cc" />
+    <ClCompile Include="base\win\scoped_handle.cc" />
+    <ClCompile Include="crypto\capi_util.cc" />
+    <ClCompile Include="crypto\ec_private_key.cc" />
+    <ClCompile Include="crypto\hkdf.cc" />
+    <ClCompile Include="crypto\hmac.cc" />
+    <ClCompile Include="crypto\openssl_util.cc" />
+    <ClCompile Include="crypto\random.cc" />
+    <ClCompile Include="crypto\rsa_private_key.cc" />
+    <ClCompile Include="crypto\secure_hash.cc" />
+    <ClCompile Include="crypto\secure_util.cc" />
+    <ClCompile Include="crypto\signature_verifier.cc" />
+    <ClCompile Include="crypto\symmetric_key.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\arena.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\arenastring.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\generated_message_util.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\io\coded_stream.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\io\zero_copy_stream.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\io\zero_copy_stream_impl_lite.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\message_lite.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\repeated_field.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\atomicops_internals_x86_msvc.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\bytestream.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\common.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\int128.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\once.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\status.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\statusor.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\stringpiece.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\protobuf_stringprintf.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\structurally_valid.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\strutil.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\stubs\protobuf_time.cc" />
+    <ClCompile Include="third_party\protobuf\src\google\protobuf\wire_format_lite.cc" />
+    <ClCompile Include="net\base\address_family.cc" />
+    <ClCompile Include="net\base\address_list.cc" />
+    <ClCompile Include="net\base\hex_utils.cc" />
+    <ClCompile Include="net\base\host_port_pair.cc" />
+    <ClCompile Include="net\base\io_buffer.cc" />
+    <ClCompile Include="net\base\ip_address.cc" />
+    <ClCompile Include="net\base\ip_endpoint.cc" />
+    <ClCompile Include="net\base\load_timing_info.cc" />
+    <ClCompile Include="net\base\net_arena.cc" />
+    <ClCompile Include="net\base\net_errors.cc" />
+    <ClCompile Include="net\base\net_errors_win.cc" />
+    <ClCompile Include="net\base\request_priority.cc" />
+    <ClCompile Include="net\base\sockaddr_storage.cc" />
+    <ClCompile Include="net\base\winsock_init.cc" />
+    <ClCompile Include="net\base\winsock_util.cc" />
+    <ClCompile Include="net\quic\chromium\quic_chromium_packet_reader.cc" />
+    <ClCompile Include="net\quic\chromium\quic_chromium_packet_writer.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\cubic_bytes.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\general_loss_algorithm.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\hybrid_slow_start.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\pacing_sender.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\prr_sender.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\rtt_stats.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\send_algorithm_interface.cc" />
+    <ClCompile Include="net\quic\core\congestion_control\tcp_cubic_sender_bytes.cc" />
+    <ClCompile Include="net\quic\core\crypto\aead_base_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aead_base_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aes_128_gcm_12_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aes_128_gcm_12_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aes_128_gcm_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aes_128_gcm_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aes_256_gcm_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\aes_256_gcm_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\cert_compressor.cc" />
+    <ClCompile Include="net\quic\core\crypto\chacha20_poly1305_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\chacha20_poly1305_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\chacha20_poly1305_tls_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\chacha20_poly1305_tls_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\channel_id.cc" />
+    <ClCompile Include="net\quic\core\crypto\common_cert_set.cc" />
+    <ClCompile Include="net\quic\core\crypto\common_cert_set_2.c" />
+    <ClCompile Include="net\quic\core\crypto\common_cert_set_3.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="net\quic\core\crypto\crypto_framer.cc" />
+    <ClCompile Include="net\quic\core\crypto\crypto_handshake.cc" />
+    <ClCompile Include="net\quic\core\crypto\crypto_handshake_message.cc" />
+    <ClCompile Include="net\quic\core\crypto\crypto_secret_boxer.cc" />
+    <ClCompile Include="net\quic\core\crypto\crypto_server_config_protobuf.cc" />
+    <ClCompile Include="net\quic\core\crypto\crypto_utils.cc" />
+    <ClCompile Include="net\quic\core\crypto\curve25519_key_exchange.cc" />
+    <ClCompile Include="net\quic\core\crypto\null_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\null_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\p256_key_exchange.cc" />
+    <ClCompile Include="net\quic\core\crypto\proof_source.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_compressed_certs_cache.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_crypto_client_config.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_crypto_proof.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_crypto_server_config.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_decrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_encrypter.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_random.cc" />
+    <ClCompile Include="net\quic\core\crypto\quic_tls_adapter.cc" />
+    <ClCompile Include="net\quic\core\crypto\scoped_evp_aead_ctx.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_ack_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_blocked_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_connection_close_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_goaway_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_padding_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_ping_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_rst_stream_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_stop_waiting_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_stream_frame.cc" />
+    <ClCompile Include="net\quic\core\frames\quic_window_update_frame.cc" />
+    <ClCompile Include="net\quic\core\proto\cached_network_parameters.pb.cc" />
+    <ClCompile Include="net\quic\core\proto\source_address_token.pb.cc" />
+    <ClCompile Include="net\quic\core\quic_ack_listener_interface.cc" />
+    <ClCompile Include="net\quic\core\quic_alarm.cc" />
+    <ClCompile Include="net\quic\core\quic_bandwidth.cc" />
+    <ClCompile Include="net\quic\core\quic_buffered_packet_store.cc" />
+    <ClCompile Include="net\quic\core\quic_buffer_allocator.cc" />
+    <ClCompile Include="net\quic\core\quic_config.cc" />
+    <ClCompile Include="net\quic\core\quic_connection.cc" />
+    <ClCompile Include="net\quic\core\quic_connection_stats.cc" />
+    <ClCompile Include="net\quic\core\quic_constants.cc" />
+    <ClCompile Include="net\quic\core\quic_control_frame_manager.cc" />
+    <ClCompile Include="net\quic\core\quic_crypto_client_handshaker.cc" />
+    <ClCompile Include="net\quic\core\quic_crypto_client_stream.cc" />
+    <ClCompile Include="net\quic\core\quic_crypto_handshaker.cc" />
+    <ClCompile Include="net\quic\core\quic_crypto_server_handshaker.cc" />
+    <ClCompile Include="net\quic\core\quic_crypto_server_stream.cc" />
+    <ClCompile Include="net\quic\core\quic_crypto_stream.cc" />
+    <ClCompile Include="net\quic\core\quic_data_reader.cc" />
+    <ClCompile Include="net\quic\core\quic_data_writer.cc" />
+    <ClCompile Include="net\quic\core\quic_error_codes.cc" />
+    <ClCompile Include="net\quic\core\quic_flow_controller.cc" />
+    <ClCompile Include="net\quic\core\quic_framer.cc" />
+    <ClCompile Include="net\quic\core\quic_packets.cc" />
+    <ClCompile Include="net\quic\core\quic_packet_creator.cc" />
+    <ClCompile Include="net\quic\core\quic_packet_generator.cc" />
+    <ClCompile Include="net\quic\core\quic_received_packet_manager.cc" />
+    <ClCompile Include="net\quic\core\quic_sent_packet_manager.cc" />
+    <ClCompile Include="net\quic\core\quic_server_id.cc" />
+    <ClCompile Include="net\quic\core\quic_session.cc" />
+    <ClCompile Include="net\quic\core\quic_simple_buffer_allocator.cc" />
+    <ClCompile Include="net\quic\core\quic_socket_address_coder.cc" />
+    <ClCompile Include="net\quic\core\quic_stream.cc" />
+    <ClCompile Include="net\quic\core\quic_stream_send_buffer.cc" />
+    <ClCompile Include="net\quic\core\quic_stream_sequencer.cc" />
+    <ClCompile Include="net\quic\core\quic_stream_sequencer_buffer.cc" />
+    <ClCompile Include="net\quic\core\quic_tag.cc" />
+    <ClCompile Include="net\quic\core\quic_time.cc" />
+    <ClCompile Include="net\quic\core\quic_transmission_info.cc" />
+    <ClCompile Include="net\quic\core\quic_types.cc" />
+    <ClCompile Include="net\quic\core\quic_unacked_packet_map.cc" />
+    <ClCompile Include="net\quic\core\quic_utils.cc" />
+    <ClCompile Include="net\quic\core\quic_versions.cc" />
+    <ClCompile Include="net\quic\core\quic_version_manager.cc" />
+    <ClCompile Include="net\quic\core\quic_write_blocked_list.cc" />
+    <ClCompile Include="net\quic\core\tls_client_handshaker.cc" />
+    <ClCompile Include="net\quic\core\tls_handshaker.cc" />
+    <ClCompile Include="net\quic\core\tls_server_handshaker.cc" />
+    <ClCompile Include="net\quic\platform\api\quic_clock.cc" />
+    <ClCompile Include="net\quic\platform\api\quic_mutex.cc" />
+    <ClCompile Include="net\quic\platform\impl\quic_chromium_clock.cc" />
+    <ClCompile Include="net\quic\platform\impl\quic_flags_impl.cc" />
+    <ClCompile Include="net\quic\platform\impl\quic_mem_slice_impl.cc" />
+    <ClCompile Include="net\quic\platform\impl\quic_mem_slice_span_impl.cc" />
+    <ClCompile Include="net\quic\platform\impl\quic_mutex_impl.cc" />
+    <ClCompile Include="net\quic\quartc\quartc_session.cc" />
+    <ClCompile Include="net\quic\quartc\quartc_stream.cc" />
+    <ClCompile Include="net\socket\client_socket_handle.cc" />
+    <ClCompile Include="net\socket\server_socket.cc" />
+    <ClCompile Include="net\socket\socket.cc" />
+    <ClCompile Include="net\socket\socket_descriptor.cc" />
+    <ClCompile Include="net\socket\socket_net_log_params.cc" />
+    <ClCompile Include="net\socket\socket_options.cc" />
+    <ClCompile Include="net\socket\socket_tag.cc" />
+    <ClCompile Include="net\socket\stream_socket.cc" />
+    <ClCompile Include="net\socket\tcp_client_socket.cc" />
+    <ClCompile Include="net\socket\tcp_server_socket.cc" />
+    <ClCompile Include="net\socket\tcp_socket_win.cc" />
+    <ClCompile Include="net\socket\udp_client_socket.cc" />
+    <ClCompile Include="net\socket\udp_server_socket.cc" />
+    <ClCompile Include="net\socket\udp_socket_win.cc" />
+    <ClCompile Include="net\ssl\channel_id_store.cc" />
+    <ClCompile Include="net\ssl\log_list-inc.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="net\ssl\ssl_client_session_cache.cc" />
+    <ClCompile Include="net\ssl\ssl_config.cc" />
+    <ClCompile Include="net\ssl\ssl_config_service.cc" />
+    <ClCompile Include="net\ssl\ssl_info.cc" />
+    <ClCompile Include="net\ssl\token_binding.cc" />
+    <ClCompile Include="net\tools\quic\chlo_extractor.cc" />
+    <ClCompile Include="net\tools\quic\quic_dispatcher.cc" />
+    <ClCompile Include="net\tools\quic\quic_per_connection_packet_writer.cc" />
+    <ClCompile Include="net\tools\quic\quic_time_wait_list_manager.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_alarm_factory_impl.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_gear_session_delegate.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="net\tools\quic\relay\quic_raw_client.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_raw_client_handshaker.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_raw_connection.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_raw_dispatcher.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_raw_session.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_raw_stream.cc" />
+    <ClCompile Include="net\tools\quic\relay\quic_relay_client_config.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="net\tools\quic\relay\quic_relay_server_session_delegate.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="net\tools\quic\stateless_rejector.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="net\quic\core\crypto\common_cert_set_2a.inc" />
+    <None Include="net\quic\core\crypto\common_cert_set_2b.inc" />
+    <None Include="net\quic\core\crypto\common_cert_set_3a.inc" />
+    <None Include="net\quic\core\crypto\common_cert_set_3b.inc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

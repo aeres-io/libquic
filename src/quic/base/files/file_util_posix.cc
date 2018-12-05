@@ -40,7 +40,6 @@
 
 #if defined(OS_MACOSX)
 #include <AvailabilityMacros.h>
-#include "base/mac/foundation_util.h"
 #endif
 
 #if defined(OS_ANDROID)
@@ -111,57 +110,6 @@ bool VerifySpecificPathControlledByUser(const FilePath& path,
 
   return true;
 }
-
-std::string TempFileName() {
-#if defined(OS_MACOSX)
-  return StringPrintf(".%s.XXXXXX", base::mac::BaseBundleID());
-#endif
-
-#if defined(GOOGLE_CHROME_BUILD)
-  return std::string(".com.google.Chrome.XXXXXX");
-#else
-  return std::string(".org.chromium.Chromium.XXXXXX");
-#endif
-}
-
-// Creates and opens a temporary file in |directory|, returning the
-// file descriptor. |path| is set to the temporary file path.
-// This function does NOT unlink() the file.
-int CreateAndOpenFdForTemporaryFile(FilePath directory, FilePath* path) {
-  AssertBlockingAllowed();  // For call to mkstemp().
-  *path = directory.Append(base::TempFileName());
-  const std::string& tmpdir_string = path->value();
-  // this should be OK since mkstemp just replaces characters in place
-  char* buffer = const_cast<char*>(tmpdir_string.c_str());
-
-  return HANDLE_EINTR(mkstemp(buffer));
-}
-
-#if defined(OS_LINUX) || defined(OS_AIX)
-// Determine if /dev/shm files can be mapped and then mprotect'd PROT_EXEC.
-// This depends on the mount options used for /dev/shm, which vary among
-// different Linux distributions and possibly local configuration.  It also
-// depends on details of kernel--ChromeOS uses the noexec option for /dev/shm
-// but its kernel allows mprotect with PROT_EXEC anyway.
-bool DetermineDevShmExecutable() {
-  bool result = false;
-  FilePath path;
-
-  ScopedFD fd(CreateAndOpenFdForTemporaryFile(FilePath("/dev/shm"), &path));
-  if (fd.is_valid()) {
-    DeleteFile(path, false);
-    long sysconf_result = sysconf(_SC_PAGESIZE);
-    size_t pagesize = static_cast<size_t>(sysconf_result);
-    void* mapping = mmap(nullptr, pagesize, PROT_READ, MAP_SHARED, fd.get(), 0);
-    if (mapping != MAP_FAILED) {
-      if (mprotect(mapping, pagesize, PROT_READ | PROT_EXEC) == 0)
-        result = true;
-      munmap(mapping, pagesize);
-    }
-  }
-  return result;
-}
-#endif  // defined(OS_LINUX) || defined(OS_AIX)
 
 bool AdvanceEnumeratorWithStat(FileEnumerator* traversal,
                                FilePath* out_next_path,
@@ -553,113 +501,6 @@ bool ExecutableExistsInPath(Environment* env,
 
 #endif  // !OS_FUCHSIA
 
-#if !defined(OS_MACOSX)
-// This is implemented in file_util_mac.mm for Mac.
-bool GetTempDir(FilePath* path) {
-  const char* tmp = getenv("TMPDIR");
-  if (tmp) {
-    *path = FilePath(tmp);
-  } else {
-#if defined(OS_ANDROID)
-    return PathService::Get(base::DIR_CACHE, path);
-#else
-    *path = FilePath("/tmp");
-#endif
-  }
-  return true;
-}
-#endif  // !defined(OS_MACOSX)
-
-#if !defined(OS_MACOSX)  // Mac implementation is in file_util_mac.mm.
-FilePath GetHomeDir() {
-#if defined(OS_CHROMEOS)
-  if (SysInfo::IsRunningOnChromeOS()) {
-    // On Chrome OS chrome::DIR_USER_DATA is overridden with a primary user
-    // homedir once it becomes available. Return / as the safe option.
-    return FilePath("/");
-  }
-#endif
-
-  const char* home_dir = getenv("HOME");
-  if (home_dir && home_dir[0])
-    return FilePath(home_dir);
-
-#if defined(OS_ANDROID)
-#endif
-
-  FilePath rv;
-  if (GetTempDir(&rv))
-    return rv;
-
-  // Last resort.
-  return FilePath("/tmp");
-}
-#endif  // !defined(OS_MACOSX)
-
-bool CreateTemporaryFile(FilePath* path) {
-  AssertBlockingAllowed();  // For call to close().
-  FilePath directory;
-  if (!GetTempDir(&directory))
-    return false;
-  int fd = CreateAndOpenFdForTemporaryFile(directory, path);
-  if (fd < 0)
-    return false;
-  close(fd);
-  return true;
-}
-
-FILE* CreateAndOpenTemporaryFileInDir(const FilePath& dir, FilePath* path) {
-  int fd = CreateAndOpenFdForTemporaryFile(dir, path);
-  if (fd < 0)
-    return nullptr;
-
-  FILE* file = fdopen(fd, "a+");
-  if (!file)
-    close(fd);
-  return file;
-}
-
-bool CreateTemporaryFileInDir(const FilePath& dir, FilePath* temp_file) {
-  AssertBlockingAllowed();  // For call to close().
-  int fd = CreateAndOpenFdForTemporaryFile(dir, temp_file);
-  return ((fd >= 0) && !IGNORE_EINTR(close(fd)));
-}
-
-static bool CreateTemporaryDirInDirImpl(const FilePath& base_dir,
-                                        const FilePath::StringType& name_tmpl,
-                                        FilePath* new_dir) {
-  AssertBlockingAllowed();  // For call to mkdtemp().
-
-  FilePath sub_dir = base_dir.Append(name_tmpl);
-  std::string sub_dir_string = sub_dir.value();
-
-  // this should be OK since mkdtemp just replaces characters in place
-  char* buffer = const_cast<char*>(sub_dir_string.c_str());
-  char* dtemp = mkdtemp(buffer);
-  if (!dtemp) {
-    return false;
-  }
-  *new_dir = FilePath(dtemp);
-  return true;
-}
-
-bool CreateTemporaryDirInDir(const FilePath& base_dir,
-                             const FilePath::StringType& prefix,
-                             FilePath* new_dir) {
-  FilePath::StringType mkdtemp_template = prefix;
-  mkdtemp_template.append(FILE_PATH_LITERAL("XXXXXX"));
-  return CreateTemporaryDirInDirImpl(base_dir, mkdtemp_template, new_dir);
-}
-
-bool CreateNewTempDirectory(const FilePath::StringType& prefix,
-                            FilePath* new_temp_path) {
-  FilePath tmpdir;
-  if (!GetTempDir(&tmpdir))
-    return false;
-
-  return CreateTemporaryDirInDirImpl(tmpdir, TempFileName(), new_temp_path);
-}
-
 bool CreateDirectoryAndGetError(const FilePath& full_path,
                                 File::Error* error) {
   AssertBlockingAllowed();  // For call to mkdir().
@@ -921,49 +762,6 @@ int GetMaximumPathComponentLength(const FilePath& path) {
   AssertBlockingAllowed();
   return pathconf(path.value().c_str(), _PC_NAME_MAX);
 }
-
-#if !defined(OS_ANDROID)
-// This is implemented in file_util_android.cc for that platform.
-bool GetShmemTempDir(bool executable, FilePath* path) {
-#if defined(OS_LINUX) || defined(OS_AIX)
-  bool use_dev_shm = true;
-  if (executable) {
-    static const bool s_dev_shm_executable = DetermineDevShmExecutable();
-    use_dev_shm = s_dev_shm_executable;
-  }
-  if (use_dev_shm) {
-    *path = FilePath("/dev/shm");
-    return true;
-  }
-#endif
-  return GetTempDir(path);
-}
-#endif  // !defined(OS_ANDROID)
-
-#if !defined(OS_MACOSX)
-// Mac has its own implementation, this is for all other Posix systems.
-bool CopyFile(const FilePath& from_path, const FilePath& to_path) {
-  AssertBlockingAllowed();
-  File infile;
-#if defined(OS_ANDROID)
-  if (from_path.IsContentUri()) {
-    infile = OpenContentUriForRead(from_path);
-  } else {
-    infile = File(from_path, File::FLAG_OPEN | File::FLAG_READ);
-  }
-#else
-  infile = File(from_path, File::FLAG_OPEN | File::FLAG_READ);
-#endif
-  if (!infile.IsValid())
-    return false;
-
-  File outfile(to_path, File::FLAG_WRITE | File::FLAG_CREATE_ALWAYS);
-  if (!outfile.IsValid())
-    return false;
-
-  return CopyFileContents(&infile, &outfile);
-}
-#endif  // !defined(OS_MACOSX)
 
 // -----------------------------------------------------------------------------
 

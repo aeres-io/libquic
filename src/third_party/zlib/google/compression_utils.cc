@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "base/bit_cast.h"
-#include "base/logging.h"
 #include "base/sys_byteorder.h"
 #include "third_party/zlib/zlib.h"
 
@@ -133,7 +132,6 @@ bool GzipCompress(const std::string& input, std::string* output) {
 
   compressed_data.resize(compressed_size);
   output->assign(compressed_data.begin(), compressed_data.end());
-  DCHECK_EQ(input_size, GetUncompressedSize(*output));
   return true;
 }
 

@@ -173,14 +173,6 @@ bool IsDirectoryEmpty(const FilePath& dir_path) {
   return false;
 }
 
-FILE* CreateAndOpenTemporaryFile(FilePath* path) {
-  FilePath directory;
-  if (!GetTempDir(&directory))
-    return nullptr;
-
-  return CreateAndOpenTemporaryFileInDir(directory, path);
-}
-
 bool CreateDirectory(const FilePath& full_path) {
   return CreateDirectoryAndGetError(full_path, nullptr);
 }
@@ -237,25 +229,6 @@ bool TruncateFile(FILE* file) {
   return true;
 }
 
-int GetUniquePathNumber(const FilePath& path,
-                        const FilePath::StringType& suffix) {
-  bool have_suffix = !suffix.empty();
-  if (!PathExists(path) &&
-      (!have_suffix || !PathExists(FilePath(path.value() + suffix)))) {
-    return 0;
-  }
-
-  FilePath new_path;
-  for (int count = 1; count <= kMaxUniqueFiles; ++count) {
-    new_path = path.InsertBeforeExtensionASCII(StringPrintf(" (%d)", count));
-    if (!PathExists(new_path) &&
-        (!have_suffix || !PathExists(FilePath(new_path.value() + suffix)))) {
-      return count;
-    }
-  }
-
-  return -1;
-}
 #endif  // !defined(OS_NACL_NONSFI)
 
 }  // namespace base

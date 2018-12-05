@@ -14,7 +14,6 @@
 #include "base/base_export.h"
 #include "base/compiler_specific.h"
 #include "base/macros.h"
-#include "base/process/process_handle.h"
 #include "base/synchronization/waitable_event.h"
 #include "base/time/time.h"
 #include "build/build_config.h"
@@ -54,12 +53,6 @@ class BASE_EXPORT SyncSocket {
 
   // Returns |Handle| wrapped in a |TransitDescriptor|.
   static Handle UnwrapHandle(const TransitDescriptor& descriptor);
-
-  // Prepares a |TransitDescriptor| which wraps |Handle| used for transit.
-  // This is used to prepare the underlying shared resource before passing back
-  // the handle to be used by the peer process.
-  bool PrepareTransitDescriptor(ProcessHandle peer_process_handle,
-                                TransitDescriptor* descriptor);
 
   // Closes the SyncSocket.  Returns true on success, false on failure.
   virtual bool Close();
@@ -110,7 +103,7 @@ class BASE_EXPORT CancelableSyncSocket : public SyncSocket {
  public:
   CancelableSyncSocket();
   explicit CancelableSyncSocket(Handle handle);
-  ~CancelableSyncSocket() override {}
+  ~CancelableSyncSocket() override = default;
 
   // Initializes a pair of cancelable sockets.  See documentation for
   // SyncSocket::CreatePair for more details.

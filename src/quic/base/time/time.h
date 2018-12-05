@@ -621,6 +621,7 @@ class BASE_EXPORT Time : public time_internal::TimeBase<Time> {
     return FromExploded(true, exploded, time);
   }
 
+#if !defined(WIN32) && !defined(WIN64)
   // Converts a string representation of time to a Time object.
   // An example of a time string which is converted is as below:-
   // "Tue, 15 Nov 1994 12:45:26 GMT". If the timezone is not specified
@@ -637,6 +638,7 @@ class BASE_EXPORT Time : public time_internal::TimeBase<Time> {
                             Time* parsed_time) WARN_UNUSED_RESULT {
     return FromStringInternal(time_string, false, parsed_time);
   }
+#endif
 
   // Fills the given exploded structure with either the local time or UTC from
   // this time structure (containing UTC).
