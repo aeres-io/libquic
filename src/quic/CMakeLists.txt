@@ -470,6 +470,8 @@ if (DEFINED UNIX)
   if (DEFINED MACOSX)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -framework CoreFoundation -framework Cocoa -lz")
   endif (DEFINED MACOSX)
+
+  add_definitions(-D_FILE_OFFSET_BITS=64)
   
 	aeres_use_pthread(quic)
 else()
